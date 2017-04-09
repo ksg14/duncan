@@ -5,14 +5,14 @@ import java.net.URISyntaxException;
 
 public class browserAPI 
 {
-	
-    public static void browserScript ()
+     
+    public static void browserScript (String url)
     {
-        String url = "http://www.google.com";
+
+        //String url = "http://www.google.com";
 
         if(Desktop.isDesktopSupported())
         {
-            
         	Desktop desktop = Desktop.getDesktop();
             
         	try 
