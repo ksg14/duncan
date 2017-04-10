@@ -1,5 +1,8 @@
 *.class
 
+#Ignore target directory with jar files
+target/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
