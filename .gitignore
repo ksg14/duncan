@@ -1,7 +1,7 @@
 *.class
 
 #Ignore target directory with jar files
-duncan/target/
+target/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
