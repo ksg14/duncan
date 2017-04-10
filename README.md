@@ -6,3 +6,4 @@ Currently not integrated but unit modules are tested.
 
 Collaboraters are highly encouraged to follow gitmoji commit style guide.
 Check that out here https://gitmoji.carloscuesta.me/.
+All commits should be in past tense.
