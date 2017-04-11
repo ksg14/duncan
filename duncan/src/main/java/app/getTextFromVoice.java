@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
 public class getTextFromVoice {
-  public static void main(String[] args) throws Exception {
+  public static void run() throws Exception {
       String url = "https://api.wit.ai/speech";
       String key = "MBUI4F7DKUYSD6655B6QYW54I2HRMGR2";
 

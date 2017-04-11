@@ -8,6 +8,7 @@ public class voiceR {
    private static final int RECORD_TIME = 3000;//3 sec
   public static void main (String [] args) {
     final SoundRecordingUtil recorder = new SoundRecordingUtil ();
+    final getTextFromVoice voiceToText = new getTextFromVoice ();
     File wavFile = new File ("/home/phiber/Desktop/Work/duncan/duncan/target/voice/audio.wav");
 
     // create a separate thread for recording
@@ -37,5 +38,14 @@ public class voiceR {
            ex.printStackTrace();
        }
        System.out.println("DONE");
+
+       try{
+         //Run Voice to Text module
+         voiceToText.run ();
+       }
+       catch (Exception e) {
+         System.out.println("Exception occured. " + e);
+       }
+
   }
 }
