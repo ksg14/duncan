@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
 public class getTextFromVoice {
-  public static void run() throws Exception {
+  public static void run(String audioFilePath) throws Exception {
       String url = "https://api.wit.ai/speech";
       String key = "MBUI4F7DKUYSD6655B6QYW54I2HRMGR2";
 
@@ -22,7 +22,7 @@ public class getTextFromVoice {
       connection.setRequestProperty("Content-Type", "audio/wav");
       connection.setDoOutput(true);
       OutputStream outputStream = connection.getOutputStream();
-      FileInputStream fileStream = new FileInputStream ("/home/phiber/Desktop/Work/duncan/duncan/target/voice/audio.wav");
+      FileInputStream fileStream = new FileInputStream (audioFilePath);
       FileChannel fileChannel = fileStream.getChannel();
        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 

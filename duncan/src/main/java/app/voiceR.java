@@ -9,7 +9,8 @@ public class voiceR {
   public static void main (String [] args) {
     final SoundRecordingUtil recorder = new SoundRecordingUtil ();
     final getTextFromVoice voiceToText = new getTextFromVoice ();
-    File wavFile = new File ("/home/phiber/Desktop/Work/duncan/duncan/target/voice/audio.wav");
+    final String audioFilePath = "/home/duncan_voice/audio.wav";
+    File wavFile = new File (audioFilePath);
 
     // create a separate thread for recording
       Thread recordThread = new Thread(new Runnable() {
@@ -41,7 +42,7 @@ public class voiceR {
 
        try{
          //Run Voice to Text module
-         voiceToText.run ();
+         voiceToText.run (audioFilePath);
        }
        catch (Exception e) {
          System.out.println("Exception occured. " + e);
