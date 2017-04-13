@@ -1,0 +1,17 @@
+PLAY play a song
+PLAY play my favorite song
+ALARM set an alarm for
+ALARM create an alarm
+ALARM wake me up at
+ALARM remind me at
+TODO remind me to
+TODO schedule task 
+SOCIAL open fb twitter
+SOCIAL view my timeline
+SOCIAL send a mail
+SOCIAL tweet about
+WEATHER display today's 
+WEATHER see today's
+NEWS today's NEWS
+NEWS see headlines
+NEWS breaking news
