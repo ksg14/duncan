@@ -24,6 +24,8 @@ public class Dunsinane extends Application {
     private FlowPane flowPane = new FlowPane ();
     private TextField userInputField = new TextField ("Say something See something!");
     private Button recordButton;
+    VoiceR voiceModule = new VoiceR ();
+    boolean startRecord;
 
     @Override
     public void start (Stage stage) {
@@ -37,9 +39,16 @@ public class Dunsinane extends Application {
 
         //Creating Record Button
         recordButton = new Button ("" , new ImageView (micIcon));
+        startRecord = true;
         recordButton.setOnAction (e -> {
-          VoiceR voiceModule = new VoiceR ();
-          voiceModule.run ();
+          if(startRecord) {
+            startRecord = false;
+            voiceModule.run ();
+          }
+          else {
+            startRecord = true;
+            voiceModule.stop ();
+          }
         });
         //
         panel.getChildren ().addAll (userInputField, recordButton);
