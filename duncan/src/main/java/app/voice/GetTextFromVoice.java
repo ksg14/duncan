@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
-public class getTextFromVoice {
+public class GetTextFromVoice {
   public static void run(String audioFilePath) throws Exception {
       String url = "https://api.wit.ai/speech";
       String key = "MBUI4F7DKUYSD6655B6QYW54I2HRMGR2";

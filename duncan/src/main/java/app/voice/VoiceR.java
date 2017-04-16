@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 
-public class voiceR {
+public class VoiceR {
    private static final int RECORD_TIME = 3000;//3 sec
-  public static void main (String [] args) {
+  public static void run () {
     final SoundRecordingUtil recorder = new SoundRecordingUtil ();
-    final getTextFromVoice voiceToText = new getTextFromVoice ();
+    final GetTextFromVoice voiceToText = new GetTextFromVoice ();
     final String audioFilePath = "/home/duncan_voice/audio.wav";
     File wavFile = new File (audioFilePath);
 
