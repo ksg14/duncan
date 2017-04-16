@@ -17,19 +17,21 @@ import javafx.scene.input.MouseEvent;
 
 //Driver Dependencies
 import voice.VoiceR;
+import social.SocialNetwork;
 
 public class Dunsinane extends Application {
     private Scene scene;
     private HBox panel = new HBox ();
-    private FlowPane flowPane = new FlowPane ();
+    private StackPane stackPane = new StackPane ();
     private TextField userInputField = new TextField ("Say something See something!");
     private Button recordButton;
+    
 
     @Override
     public void start (Stage stage) {
         //Setting TextField width and height
-        userInputField.setPrefHeight (64);
-        userInputField.setPrefWidth (200);
+         userInputField.setPrefHeight (64);
+         userInputField.setPrefWidth (500);
 
         //Get MIC icon
         final String micImagePath = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRP-9pKSMlhW0nRBhRII2SRET6x8n7PENcdYMPX_iN3xDsNFXwGcQ";
@@ -37,25 +39,32 @@ public class Dunsinane extends Application {
 
         //Creating Record Button
         recordButton = new Button ("" , new ImageView (micIcon));
-        recordButton.setOnAction (e -> {
-          VoiceR voiceModule = new VoiceR ();
-          voiceModule.run ();
-        });
+
         //
         panel.getChildren ().addAll (userInputField, recordButton);
         panel.setAlignment(Pos.CENTER);
-        // userInputField.widthProperty ().bind (panel.widthProperty ().multiply (0.80));
-        // recordButton.widthProperty ().bind (panel.widthProperty ().multiply (0.20));
 
-        //Set FlowPane
-        flowPane.getChildren ().add (panel);
+        //Set stackPane
+        stackPane.getChildren ().add (panel);
+
+        // stackPane.setFitWidth(getWidth());
+        // stackPane.setFitHeight(getHeight());
+
+        stackPane.setPadding(new Insets(50,50,50,50));
+
+        recordButton.setOnAction (e -> {
+        //   VoiceR voiceModule = new VoiceR ();
+        //   voiceModule.run ();
+            SocialNetwork.showBrowser(stage, panel, "http://m.facebook.com");
+        });
 
         //Set Scene
-        scene = new Scene (flowPane);
+        scene = new Scene (stackPane);
 
         //Stage
         stage.setTitle ("Dunsinane Castle");
         stage.setScene (scene);
+        stage.setResizable(false);
 
         //Load Stage
         stage.show ();
