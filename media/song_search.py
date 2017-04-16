@@ -32,14 +32,6 @@ def retrieve_songs_with_count():
             name_count_tuples_list.append((song_name_with_count[0].lower() , song_name_with_count[1]))
     return name_count_tuples_list
 
-# where indexing of .mp4 and .avi files is done
-def indexing():
-    with open(indexfile_name, "w") as f:        
-        for subdir, dirs, files in os.walk(rootdir):
-            for file in files:
-                if file.endswith(ext):
-                    f.write(os.path.join(subdir,file)+'\t'+ str(0)+ "\n")
-
 def path_to_song(song_pos):
     with open(indexfile_name,'r') as f:
         y = f.readlines()[song_pos].split('\t')
@@ -69,19 +61,14 @@ def checking_counts(res):
 
 
 
-#indexing()
 
-print('Enter the song you want to search for?? \n')
-x = input()
+song_name = 
 
 name_count_tuples_list = retrieve_songs_with_count()
 
-res = search_song(name_count_tuples_list,x)
+res = search_song(name_count_tuples_list,song_name)
 if len(res):
     checking_counts(res)
 else:
     webbrowser.open('https://www.youtube.com/results?search_query=' + x)
 
-#print(name_count_tuples_list)
-
-# open_file('/home/prateek/Avicii - The Nights.mp4')
