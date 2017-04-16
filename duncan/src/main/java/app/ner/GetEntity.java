@@ -30,10 +30,9 @@ public class GetEntity {
     messageStop = jsonString.indexOf ("\"", messageStart);
     label = jsonString.substring (messageStart, messageStop);
 
-    // System.out.println(entity + " " + label);
-    // return jsonString.substring (messageStart, messageStop);
-    if(label == "media" || label == "social" || label == "weather")
+    if(label.equals ("media") || label.equals ("social") || label.equals ("weather")) {
       return label + "," + entity;
+    } 
     return entity + "," + label;
   }
   public static String callNER(String userQuery) {

@@ -151,6 +151,7 @@ public class Dunsinane extends Application {
       //Media
       if(label.equals ("media")) {
         //PlayMedia.playSong (entity);
+        System.out.println("called " + entity);
         str = PlayMedia.playSong(entity);
         if(!str.equals("false"))
             SocialNetwork.showBrowser(stage, panel, str);    
