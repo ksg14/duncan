@@ -7,6 +7,7 @@ import javax.sound.sampled.LineUnavailableException;
 public class VoiceR {
    private static final int RECORD_TIME = 3000;//3 sec
   public static void run () {
+      
     final SoundRecordingUtil recorder = new SoundRecordingUtil ();
     final GetTextFromVoice voiceToText = new GetTextFromVoice ();
     final String audioFilePath = "/home/duncan_voice/audio.wav";
