@@ -2,7 +2,7 @@ from textblob.classifiers import NaiveBayesClassifier
 from textblob import TextBlob
 import sys
 
-while(i < 18):
+
     
 
 train = [
