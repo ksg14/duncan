@@ -30,9 +30,9 @@ public class Dunsinane extends Application {
     private VBox vb = new VBox();
     private StackPane stackPane = new StackPane ();
     private TextField userInputField = new TextField ("Say something See something!");
-    private TextField t1 = new TextField();
-    private TextField t2 = new TextField();
-    private TextField t3 = new TextField();
+    private Text t1 = new Text();
+    private Text t2 = new Text();
+    private Text t3 = new Text();
     private Button recordButton;
     private Button textButton;
     VoiceR voiceModule = new VoiceR ();
@@ -46,14 +46,6 @@ public class Dunsinane extends Application {
         //Setting TextField width and height
         userInputField.setPrefHeight (64);
         userInputField.setPrefWidth (500);
-        weatherString = ShowWeather.showWeather();
-        t1.setText(weatherString[0]);
-        t2.setText(weatherString[1] + "weather");
-        t3.setText(weatherString[2] + "celcius");
-        t1.setEditable(false);
-        t2.setEditable(false);
-        t3.setEditable(false);
-        weatherPanel.getChildren().addAll(t1,t2,t3);
 
         //Get MIC icon
         final String micImagePath = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRP-9pKSMlhW0nRBhRII2SRET6x8n7PENcdYMPX_iN3xDsNFXwGcQ";
@@ -86,7 +78,9 @@ public class Dunsinane extends Application {
         panel.getChildren ().addAll (userInputField, recordButton, textButton);
         panel.setAlignment(Pos.CENTER);
 
-        vb.getChildren().addAll(panel,weatherPanel);
+        weatherPanel.getChildren().addAll(t1,t2,t3);
+
+        vb.getChildren().addAll(panel, weatherPanel);
         vb.setSpacing(20);
         //Set stackPane
         //stackPane.getChildren ().addAll (panel);
@@ -109,12 +103,14 @@ public class Dunsinane extends Application {
         stage.show ();
     }
     private String extractMessage (String jsonString) {
+
       String textDelimToken = "\"_text\" : \"";
       int messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
       int messageStop = jsonString.indexOf ("\"", messageStart);
       //System.out.println("start-" + messageStart + "stop-" + messageStop);
       return jsonString.substring (messageStart, messageStop);
     }
+      
     private void performTask (String userCommand, Stage stage) {
       //TO-DO extract intents and call modules
       String processedQuery = GetEntity.callNER (userCommand);
@@ -145,12 +141,14 @@ public class Dunsinane extends Application {
         str = PlayMedia.playSong("");
             if(!str.equals("false"))
               SocialNetwork.showBrowser(stage, panel, str);
-            
             //System.out.println(weatherString[0]);
-          }
-        });
-        
-        panel.getChildren ().addAll (userInputField, recordButton);
+      }
+      //weather
+      if(label.equals ("weather")) {
+        weatherString = ShowWeather.showWeather();
+        t1.setText(weatherString[0]);
+        t2.setText(weatherString[1] + " weather");
+        t3.setText(weatherString[2] + " celcius");
       }
     }
 }
