@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 //Driver Dependencies
 import voice.VoiceR;
 import social.SocialNetwork;
+import media.PlayMedia;
 
 public class Dunsinane extends Application {
     private Scene scene;
@@ -27,6 +28,7 @@ public class Dunsinane extends Application {
     private Button recordButton;
     VoiceR voiceModule = new VoiceR ();
     boolean startRecord;
+    private String str;
 
     @Override
     public void start (Stage stage) {
@@ -51,8 +53,9 @@ public class Dunsinane extends Application {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
-            //TO-DO extract intents and call modules
-            SocialNetwork.showBrowser(stage, panel, "http://m.facebook.com");
+            str = PlayMedia.playSong("");
+            if(!str.equals("false"))
+              SocialNetwork.showBrowser(stage, panel, str);
           }
         });
         //

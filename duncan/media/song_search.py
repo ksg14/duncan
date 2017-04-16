@@ -69,7 +69,8 @@ def find_fav(count_list):
 if __name__ == '__main__':
 
     name_count_tuples_list = retrieve_songs_with_count()
-    
+    with open('./media/urlfile.txt','w') as f:
+        f.writelines('false')
     if len(sys.argv) == 1:
         song_pos = find_fav(name_count_tuples_list)
         #count_increase(song_pos)
@@ -82,6 +83,8 @@ if __name__ == '__main__':
         res = search_song(name_count_tuples_list,song_name)
         if len(res):
             checking_counts(res[0])
+
+           
         else:
-            with open('urlfile.txt','w') as f:
+            with open('./media/urlfile.txt','w') as f:
                 f.writelines('https://www.youtube.com/results?search_query=' + song_name)
