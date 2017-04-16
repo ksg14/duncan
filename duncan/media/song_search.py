@@ -39,9 +39,8 @@ def path_to_song(song_pos):
 
 def search_song(song_list,name):
     s_index = []
-    print (len(song_list))
     for i,(n,c) in enumerate(song_list):
-        print ("hey")
+        print ("i = " + str(i) + "\nn=" + str(n) + "\nc=" + str(c))
         if name in n:
             s_index.append((i,int(c)))
     sorted_by_count = sorted(s_index,key=lambda t:t[1] , reverse=True)
@@ -69,8 +68,8 @@ if __name__ == '__main__':
     song_name = ' '.join(x)
 
     name_count_tuples_list = retrieve_songs_with_count()
-    print len(name_count_tuples_list)
-    #res = search_song(name_count_tuples_list,song_name)
+    #print (len(name_count_tuples_list))
+    res = search_song(name_count_tuples_list,song_name)
     if len(res):
         checking_counts(res)
     else:

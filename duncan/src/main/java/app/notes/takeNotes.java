@@ -1,33 +1,32 @@
-// package notes;
+package notes;
 
-// import java.util.Date;
-// import java.io.FileWriter;
-// import java.io.IOException;
-// import org.json.simple.JSONArray;
-// import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-// public class takeNotes {
-//   public static void writeUserNotes (String userNote) {
-//     Date sysDate = new Date ();
+import java.io.FileWriter;
+import java.io.IOException;
 
-//     JSONObject note = new JSONObject();
-// 		note.put("Note", userNote);
-// 		note.put("Date", ""+sysDate.getTime());
+public class takeNotes {
+    final static String notesFilePath = "/home/duncan/duncan_assets/test.json";
+    public static void main(String[] args) {
+        JSONObject obj = new JSONObject();
+        obj.put("name", "mkyong.com");
+        obj.put("age", new Integer(100));
 
-// 		JSONArray notesArray = new JSONArray();
-// 		notesArray.add(note);
+        JSONArray list = new JSONArray();
+        list.add("msg 1");
+        list.add("msg 2");
+        list.add("msg 3");
 
-// 		try (FileWriter file = new FileWriter("/home/duncan/Documents/notes.txt")) {
-// 			file.write(notesArray.toJSONString());
-// 			System.out.println("Successfully Copied JSON Object to File...");
-// 			System.out.println("\nJSON Array: " + notesArray);
+        obj.put("messages", list);
 
-//     }
-//   }
-//   public static void getUserNotes () {
+        try (FileWriter file = new FileWriter(notesFilePath)) {
+            file.write(obj.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.print(obj);
+    }
 
-//   }
-//   public static void main(String [] args) {
-//     writeUserNotes ("Hey");
-//   }
-// }
+}

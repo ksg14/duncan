@@ -49,7 +49,9 @@ public class Dunsinane extends Application {
           }
           else {
             startRecord = true;
-            voiceModule.stop ();
+            String userCommand = extractMessage(voiceModule.stop ());
+            userInputField.setText (userCommand);
+            //TO-DO extract intents and call modules
           }
         });
         //
@@ -64,11 +66,11 @@ public class Dunsinane extends Application {
 
         stackPane.setPadding(new Insets(50,50,50,50));
 
-        recordButton.setOnAction (e -> {
-        //   VoiceR voiceModule = new VoiceR ();
-        //   voiceModule.run ();
-            SocialNetwork.showBrowser(stage, panel, "http://m.facebook.com");
-        });
+        // recordButton.setOnAction (e -> {
+        // //   VoiceR voiceModule = new VoiceR ();
+        // //   voiceModule.run ();
+        //     SocialNetwork.showBrowser(stage, panel, "http://m.facebook.com");
+        // });
 
         //Set Scene
         scene = new Scene (stackPane);
@@ -80,5 +82,12 @@ public class Dunsinane extends Application {
 
         //Load Stage
         stage.show ();
+    }
+    private String extractMessage (String jsonString) {
+      String textDelimToken = "\"_text\" : \"";
+      int messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
+      int messageStop = jsonString.indexOf ("\"", messageStart);
+      //System.out.println("start-" + messageStart + "stop-" + messageStop);
+      return jsonString.substring (messageStart, messageStop);
     }
 }
