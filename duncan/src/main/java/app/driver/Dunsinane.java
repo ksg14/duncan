@@ -15,6 +15,9 @@ import javafx.scene.text.*;
 import javafx.stage.*;
 import javafx.scene.input.MouseEvent;
 
+//Driver Dependencies
+import voice.VoiceR;
+
 public class Dunsinane extends Application {
     private Scene scene;
     private HBox panel = new HBox ();
@@ -34,7 +37,10 @@ public class Dunsinane extends Application {
 
         //Creating Record Button
         recordButton = new Button ("" , new ImageView (micIcon));
-
+        recordButton.setOnAction (e -> {
+          VoiceR voiceModule = new VoiceR ();
+          voiceModule.run ();
+        });
         //
         panel.getChildren ().addAll (userInputField, recordButton);
         panel.setAlignment(Pos.CENTER);
