@@ -17,19 +17,19 @@ public class PlayMedia {
          cmdArray[1] = "./media/song_search.py";
 
          // third argument is the song to be played
-         cmdArray[2] = "delhi de sardar boys";
+         cmdArray[2] = songName;
 
          // print a message
          System.out.println("Playing....");
 
          // create a process and execute cmdArray and currect environment
          Process process = Runtime.getRuntime().exec(cmdArray, null);
-        //  BufferedReader response = new BufferedReader(new InputStreamReader(process.getInputStream ()));
-         //
-        //  String line, outputLine = "";
-        //  while((line = response.readLine()) != null) {
-        //      outputLine += line;
-        //  }
+         BufferedReader response = new BufferedReader(new InputStreamReader(process.getInputStream ()));
+
+         String line, outputLine = "";
+         while((line = response.readLine()) != null) {
+             outputLine += line;
+         }
         //  System.out.println("Op  "+outputLine);
 
          process.waitFor ();
@@ -40,21 +40,7 @@ public class PlayMedia {
          ex.printStackTrace();
       }
   }
-  public static void indexMediaFiles () {
-    //String command = "python3 ./media/only_indexing.py";
-
-    // Thread playThread = new Thread(new Runnable() {
-    //      @Override
-    //      public void run() {
-    //          try {
-    //              System.out.println("Playing...");
-    //              Runtime.getRuntime().exec(command);
-    //          } catch (IOException ioe) {
-    //            System.out.println ("Error in executing the only_indexing.py script");
-    //          }
-    //      }
-    //  });
-    //  playThread.start();
+  public static void indexMediaFiles () {);
 
     try {
          // create a new array of 2 strings
@@ -79,12 +65,4 @@ public class PlayMedia {
          ex.printStackTrace();
       }
   }
-
-  public static void main(String [] args) {
-    playSong ("Starboy");
-    // indexMediaFiles ();
-    // String command =
-    // Runtime.getRuntime().exec(command);
-
-    }
-  }
+}
