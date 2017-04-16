@@ -10,7 +10,7 @@ ext = ('.mp3'   )
 indexfile_name = 'songs.index'
 
 if sys.platform == 'win64':
-    rootdir = 'C:\\'
+    rootdir = 'C:\\'    
 else:
     rootdir = '/home/'
 
@@ -25,11 +25,13 @@ def open_file(filename):
 
 def retrieve_songs_with_count():
     name_count_tuples_list = []
-    with open(indexfile_name, "r") as f:
+    pos = 0
+    with open(indexfile_name, "r") as f:        
         for line in f.readlines():
             x = [i.strip() for i in line.split('/')]
             song_name_with_count = [i.strip() for i in x[-1].split('\t')]
-            name_count_tuples_list.append((song_name_with_count[0].lower() , song_name_with_count[1]))
+            name_count_tuples_list.append((pos,song_name_with_count[0].lower() , int(song_name_with_count[1])))
+            pos += 1
     return name_count_tuples_list
 
 def path_to_song(song_pos):
@@ -39,10 +41,9 @@ def path_to_song(song_pos):
 
 def search_song(song_list,name):
     s_index = []
-    for i,(n,c) in enumerate(song_list):
-        print ("i = " + str(i) + "\nn=" + str(n) + "\nc=" + str(c))
+    for (i,n,c) in song_list:
         if name in n:
-            s_index.append((i,int(c)))
+            s_index.append((i,c))
     sorted_by_count = sorted(s_index,key=lambda t:t[1] , reverse=True)
     return sorted_by_count
 
@@ -56,22 +57,31 @@ def count_increase(r):
         f.writelines(data)
 
 def checking_counts(res):
-    f = res[0][1]
-    open_file(path_to_song(res[0][0]))
-    count_increase(res[0][0])
+    count_increase(res[0])
+    open_file(path_to_song(res[0]))
+    
 
+def find_fav(count_list):
+    sorted_list = sorted(count_list,key = lambda t:t[2] , reverse=True)
+    return sorted_list[0]
+    
 
 if __name__ == '__main__':
 
-    x = [sys.argv[i] for i in range(1,len(sys.argv))]
-
-    song_name = ' '.join(x)
-
     name_count_tuples_list = retrieve_songs_with_count()
-    #print (len(name_count_tuples_list))
-    res = search_song(name_count_tuples_list,song_name)
-    if len(res):
-        checking_counts(res)
+    
+    if len(sys.argv) == 1:
+        song_pos = find_fav(name_count_tuples_list)
+        #count_increase(song_pos)
+        print(song_pos)
+        checking_counts(song_pos)
+        
     else:
-        print ('https://www.youtube.com/results?search_query=' + song_name)
-
+        x = [sys.argv[i] for i in range(1,len(sys.argv))]
+        song_name = ' '.join(x)
+        res = search_song(name_count_tuples_list,song_name)
+        if len(res):
+            checking_counts(res[0])
+        else:
+            with open('urlfile.txt','w') as f:
+                f.writelines('https://www.youtube.com/results?search_query=' + song_name)
