@@ -1,4 +1,4 @@
-package GUI;
+package driver;
 
 import javafx.application.*;
 import javafx.collections.*;
