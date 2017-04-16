@@ -11,9 +11,9 @@ public class PlayMedia {
 //getUrl() returns url to the Dunsinane to check for the youtube event.
   public static String getUrl()
   {
-    try{    
-           FileReader fr = new FileReader("/home/mohit/Documents/IR/duncan/duncan/media/urlfile.txt");    
-           BufferedReader br = new BufferedReader(fr); 
+    try{
+           FileReader fr = new FileReader("/home/mohit/Documents/IR/duncan/duncan/media/urlfile.txt");
+           BufferedReader br = new BufferedReader(fr);
            String s;
            while((s = br.readLine()) != null) {
               if((s.substring(0,5).equals("https"))) {
@@ -21,14 +21,12 @@ public class PlayMedia {
               }
               else
                 return "false";
-            } 
+            }
           } catch(Exception e) {
-            System.out.println(e); 
+            System.out.println(e);
           }
-      return "false"; 
- }  
-
-  
+      return "false";
+ }
   public static String playSong (String songName) {
     try {
          // create a new array of 2 strings
@@ -52,7 +50,7 @@ public class PlayMedia {
 
 
         //  BufferedReader response = new BufferedReader(new InputStreamReader(process.getInputStream()));
-         
+
         //  //BufferedWriter bw = new BufferedWriter(response);
         //  //System.out.println(response.readLine());
         //  //System.out.println(process.getInputStream().readLine());
@@ -65,7 +63,7 @@ public class PlayMedia {
         // System.out.println("Op hai ye " + outputLine);
 
          process.waitFor ();
-         
+
         //  playSong ("StartBoy");
          // print another message
          System.out.println("should be working....");
@@ -77,7 +75,6 @@ public class PlayMedia {
       return "false";
   }
   public static void indexMediaFiles () {
-
     try {
          // create a new array of 2 strings
          String[] cmdArray = new String[2];
