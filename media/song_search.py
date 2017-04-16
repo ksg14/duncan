@@ -1,5 +1,5 @@
 #Python3
-
+import sys
 import os
 import subprocess, sys
 import webbrowser
@@ -60,15 +60,17 @@ def checking_counts(res):
     count_increase(res[0][0])
 
 
+if __name__ == '__main__':
 
+    x = [sys.argv[i] for i in range(1,len(sys.argv))]
 
-song_name = 
+    song_name = ' '.join(x)
 
-name_count_tuples_list = retrieve_songs_with_count()
+    name_count_tuples_list = retrieve_songs_with_count()
 
-res = search_song(name_count_tuples_list,song_name)
-if len(res):
-    checking_counts(res)
-else:
-    webbrowser.open('https://www.youtube.com/results?search_query=' + x)
+    res = search_song(name_count_tuples_list,song_name)
+    if len(res):
+        checking_counts(res)
+    else:
+        webbrowser.open('https://www.youtube.com/results?search_query=' + song_name)
 

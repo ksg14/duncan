@@ -24,5 +24,5 @@ def indexing():
                     f.write(os.path.join(subdir,file)+'\t'+ str(0)+ "\n")
 
 
-
-indexing()
+if __name__ == '__main__':
+    indexing()
