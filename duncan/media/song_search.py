@@ -73,4 +73,5 @@ if __name__ == '__main__':
     if len(res):
         checking_counts(res)
     else:
-        webbrowser.open('https://www.youtube.com/results?search_query=' + song_name)
+        print ('https://www.youtube.com/results?search_query=' + song_name)
+

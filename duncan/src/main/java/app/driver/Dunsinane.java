@@ -52,6 +52,7 @@ public class Dunsinane extends Application {
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
             //TO-DO extract intents and call modules
+            SocialNetwork.showBrowser(stage, panel, "http://m.facebook.com");
           }
         });
         //
