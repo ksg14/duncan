@@ -46,6 +46,14 @@ public class Dunsinane extends Application {
         //Setting TextField width and height
         userInputField.setPrefHeight (64);
         userInputField.setPrefWidth (500);
+        // weatherString = ShowWeather.showWeather();
+        // t1.setText(weatherString[0]);
+        // t2.setText(weatherString[1] + "weather");
+        // t3.setText(weatherString[2] + "celcius");
+        // t1.setEditable(false);
+        // t2.setEditable(false);
+        // t3.setEditable(false);
+        // weatherPanel.getChildren().addAll(t1,t2,t3);
 
         //Get MIC icon
         final String micImagePath = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRP-9pKSMlhW0nRBhRII2SRET6x8n7PENcdYMPX_iN3xDsNFXwGcQ";
@@ -78,9 +86,11 @@ public class Dunsinane extends Application {
         panel.getChildren ().addAll (userInputField, recordButton, textButton);
         panel.setAlignment(Pos.CENTER);
 
+
         weatherPanel.getChildren().addAll(t1,t2,t3);
 
         vb.getChildren().addAll(panel, weatherPanel);
+
         vb.setSpacing(20);
         //Set stackPane
         //stackPane.getChildren ().addAll (panel);
@@ -93,7 +103,7 @@ public class Dunsinane extends Application {
 
         //Set Scene
         scene = new Scene (stackPane);
-        
+
         //Stage
         stage.setTitle ("Dunsinane Castle");
         stage.setScene (scene);
@@ -131,17 +141,19 @@ public class Dunsinane extends Application {
             userInputField.setText ("Which feed? Try \"open fb\", \"open twitter\", \"open gmail\", \"open youtube\".");
         }
         else if (entity.length() > 0){
+          if(entity.charAt(0) == ' ') {
+            entity = entity.substring(1);
+          }
           lastOpenedFeed = entity;
-          SocialNetwork.showBrowser(stage, panel, "https://" + entity);
+          SocialNetwork.showBrowser(stage, panel, "http://" + entity);
         }
       }
       //Media
       if(label.equals ("media")) {
         //PlayMedia.playSong (entity);
-        str = PlayMedia.playSong("");
-            if(!str.equals("false"))
-              SocialNetwork.showBrowser(stage, panel, str);
-            //System.out.println(weatherString[0]);
+        str = PlayMedia.playSong(entity);
+        if(!str.equals("false"))
+            SocialNetwork.showBrowser(stage, panel, str);    
       }
       //weather
       if(label.equals ("weather")) {

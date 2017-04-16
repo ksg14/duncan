@@ -13,26 +13,28 @@ public class GetEntity {
     String textDelimToken = "\"confidence\" : ";
     int messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
     int messageStop = jsonString.indexOf (",", messageStart);
-    labelConfidenceStr = jsonString.substring (messageStart, messageStop);
+    entityConfidenceStr = jsonString.substring (messageStart, messageStop);
 
     textDelimToken = "\"value\" : \"";
     messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
     messageStop = jsonString.indexOf ("\"", messageStart);
-    label = jsonString.substring (messageStart, messageStop);
+    entity = jsonString.substring (messageStart, messageStop);
 
     textDelimToken = "\"confidence\" : ";
     messageStart = jsonString.indexOf (textDelimToken, messageStop) + textDelimToken.length();
     messageStop = jsonString.indexOf (",", messageStart);
-    entityConfidenceStr = jsonString.substring (messageStart, messageStop);
+    labelConfidenceStr = jsonString.substring (messageStart, messageStop);
 
     textDelimToken = "\"value\" : \"";
     messageStart = jsonString.indexOf (textDelimToken, messageStop) + textDelimToken.length();
     messageStop = jsonString.indexOf ("\"", messageStart);
-    entity = jsonString.substring (messageStart, messageStop);
+    label = jsonString.substring (messageStart, messageStop);
 
     // System.out.println(entity + " " + label);
     // return jsonString.substring (messageStart, messageStop);
-    return label + "," + entity;
+    if(label == "media" || label == "social" || label == "weather")
+      return label + "," + entity;
+    return entity + "," + label;
   }
   public static String callNER(String userQuery) {
     // String userQuery = "open facebook";
