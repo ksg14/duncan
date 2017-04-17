@@ -47,14 +47,14 @@ public class Dunsinane extends Application {
           }
           else {
             startRecord = true;
-            voiceModule.stop ();
+            String userCommand = extractMessage(voiceModule.stop ());
+            userInputField.setText (userCommand);
+            //TO-DO extract intents and call modules
           }
         });
         //
         panel.getChildren ().addAll (userInputField, recordButton);
         panel.setAlignment(Pos.CENTER);
-        // userInputField.widthProperty ().bind (panel.widthProperty ().multiply (0.80));
-        // recordButton.widthProperty ().bind (panel.widthProperty ().multiply (0.20));
 
         //Set FlowPane
         flowPane.getChildren ().add (panel);
@@ -68,5 +68,12 @@ public class Dunsinane extends Application {
 
         //Load Stage
         stage.show ();
+    }
+    private String extractMessage (String jsonString) {
+      String textDelimToken = "\"_text\" : \"";
+      int messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
+      int messageStop = jsonString.indexOf ("\"", messageStart);
+      //System.out.println("start-" + messageStart + "stop-" + messageStop);
+      return jsonString.substring (messageStart, messageStop);
     }
 }
