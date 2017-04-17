@@ -12,7 +12,7 @@ public class PlayMedia {
   public static String getUrl()
   {
     try{
-           FileReader fr = new FileReader("/home/mohit/Documents/IR/duncan/duncan/media/urlfile.txt");
+           FileReader fr = new FileReader("./media/urlfile.txt");
            BufferedReader br = new BufferedReader(fr);
            String s;
            while((s = br.readLine()) != null) {
