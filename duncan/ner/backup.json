@@ -1,0 +1,20 @@
+[
+  {
+    "value":"facebook",
+    "expressions":["open fb",
+                   "open facebook.com",
+                   "open my facebook page",
+                   "i want to see my facebook page",
+                   "login to facebook",
+                   "www.facebook.com"
+                 ],
+    "metadata":"social"
+  },
+  {
+    "value":"starboy",
+    "expressions":["play starboy",
+                   "play the song starboy"
+                 ],
+    "metadata":"media"
+  }
+]

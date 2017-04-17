@@ -35,29 +35,29 @@ public class ShowWeather {
         flowPane.setVgap(20);
         scene = new Scene(flowPane);
         stage.setScene(scene);
-        //scene.getStylesheets().add("webviewsample/BrowserToolbar.css");        
+        //scene.getStylesheets().add("webviewsample/BrowserToolbar.css");
         stage.show();
     }
 
     public static void readWeather(Stage stage, HBox panel)
     {
         String str[] = new String [3];
-        try{    
-            FileReader fr = new FileReader("/home/mohit/Documents/IR/duncan/duncan/src/main/java/app/weather/weather.txt");    
-            BufferedReader br = new BufferedReader(fr); 
-            
+        try{
+            FileReader fr = new FileReader("./src/main/java/app/weather/weather.txt");    
+            BufferedReader br = new BufferedReader(fr);
+
             String s;
             int i = 0;
             while((s = br.readLine()) != null) {
                 str[i] = s;
                 i = i + 1;
-            } 
+            }
         }catch(Exception e) {
-                System.out.println(e); 
+                System.out.println(e);
             }
         showOnScene(stage, panel, str);
- }  
-    
+ }
+
   public static void showWeather (Stage stage, HBox panel) {
     try {
          // create a new array of 2 strings
@@ -75,11 +75,11 @@ public class ShowWeather {
          // create a process and execute cmdArray and correct environment
          Process process = Runtime.getRuntime().exec(cmdArray, null);
          process.waitFor ();
-         
+
       } catch (Exception ex) {
          ex.printStackTrace();
       }
-      
+
       readWeather( stage,  panel);
   }
 
