@@ -25,6 +25,7 @@ public class SocialNetwork extends Region
     final WebView browser = new WebView();
     final WebEngine webEngine = browser.getEngine();
     public FlowPane flowPane = new FlowPane();
+    
 
     public static void showBrowser(Stage stage, HBox panel, String site)
     {

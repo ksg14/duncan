@@ -92,7 +92,7 @@ public class Dunsinane extends Application {
         //     //OpenNotes.openNote(stage, panel);
         //     //performTask (userInputField.getText (), stage);
         // });
-      
+            
             performTask (userInputField.getText (), stage);
         });
 
