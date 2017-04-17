@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
 public class GetTextFromVoice {
-  public static void run(String audioFilePath) throws Exception {
+  public static String run(String audioFilePath) throws Exception {
       String url = "https://api.wit.ai/speech";
       String key = "MBUI4F7DKUYSD6655B6QYW54I2HRMGR2";
 
@@ -35,9 +35,10 @@ public class GetTextFromVoice {
       }
 
       BufferedReader response = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      String line;
+      String line, witResponse = "";
       while((line = response.readLine()) != null) {
-          System.out.println(line);
+          witResponse += line;
       }
+      return witResponse;
   }
 }

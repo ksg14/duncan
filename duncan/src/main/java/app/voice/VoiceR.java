@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 
+//Dependencies
+
 public class VoiceR {
    private static final int RECORD_TIME = 3000;//3 sec
    final SoundRecordingUtil recorder = new SoundRecordingUtil ();
-   final GetTextFromVoice voiceToText = new GetTextFromVoice ();
-   final String audioFilePath = "/home/duncan_voice/audio.wav";
+   final String audioFilePath = "/home/duncan/duncan_voice/audio.wav";
    File wavFile = new File (audioFilePath);
 
   public void run () {
@@ -32,7 +33,7 @@ public class VoiceR {
       //      ex.printStackTrace();
       //  }
   }
-  public void stop () {
+  public String stop () {
     try {
          recorder.stop();
          recorder.save(wavFile);
@@ -43,10 +44,11 @@ public class VoiceR {
      System.out.println("DONE");
      try{
        //Run Voice to Text module
-       voiceToText.run (audioFilePath);
+       return GetTextFromVoice.run (audioFilePath);
      }
      catch (Exception e) {
        System.out.println("Exception occured. " + e);
      }
+     return ("I did not understand");
   }
 }
