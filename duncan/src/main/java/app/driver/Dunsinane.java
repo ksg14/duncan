@@ -24,6 +24,7 @@ import ner.GetEntity;
 import media.PlayMedia;
 import weather.ShowWeather;
 import notes.OpenNotes;
+import askUser.AskUser;
 
 public class Dunsinane extends Application {
     private Scene scene;
@@ -88,7 +89,9 @@ public class Dunsinane extends Application {
         });
 
         textButton.setOnAction (e -> {
-            OpenNotes.openNote(stage, panel);
+
+            AskUser.askUser(stage,panel);
+            //OpenNotes.openNote(stage, panel);
             //performTask (userInputField.getText (), stage);
         });
         //
