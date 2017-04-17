@@ -23,6 +23,7 @@ import social.SocialNetwork;
 import ner.GetEntity;
 import media.PlayMedia;
 import weather.ShowWeather;
+import notes.OpenNotes;
 
 public class Dunsinane extends Application {
     private Scene scene;
@@ -81,13 +82,13 @@ public class Dunsinane extends Application {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
-  
-            performTask (userCommand, stage);
+            
+            //performTask (userCommand, stage);
           }
         });
 
         textButton.setOnAction (e -> {
-            ShowWeather.showWeather(stage, panel);
+            OpenNotes.openNote(stage, panel);
             //performTask (userInputField.getText (), stage);
         });
         //
@@ -178,12 +179,13 @@ public class Dunsinane extends Application {
       }
       //weather
       if(label.equals ("weather")) {
-        // weatherString = ShowWeather.showWeather();
-        // t1.setText(weatherString[0]);
-        // t2.setText(weatherString[1] + " weather");
-        // t3.setText(weatherString[2] + " celcius");
         ShowWeather.showWeather(stage, panel);
       }
+
+      //Notes
+      // if(label.equals("notes")){
+      //   OpenNotes.takeNote(stage, panel);
+      // }
     }
 
     

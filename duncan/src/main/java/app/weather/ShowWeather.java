@@ -30,9 +30,7 @@ public class ShowWeather {
         Scene scene;
          Text weatherText = new Text();
         stage.setTitle("Dunsinane Castle");
-
         weatherText.setText(str[0] + " " + str[1] + " " + str[2]);
-
         flowPane.getChildren().addAll(weatherText,panel);
         flowPane.setVgap(20);
         scene = new Scene(flowPane);
