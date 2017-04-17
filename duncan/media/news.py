@@ -12,7 +12,7 @@ news_links = {
 
 def read_file():
     data = []
-    with open('./news.txt','r') as f:
+    with open('news.txt','r') as f:
         for line in f.readlines():
             x = [i.strip() for i in line.split('\t')]
             x[1] = int(x[1])
@@ -26,7 +26,7 @@ def count_increase(category_name,data):
             data[pos][1] += 1
             data[pos][1] = str(data[pos][1])
     print(data)
-    with open('./news.txt','w') as f:
+    with open('news.txt','w') as f:
         f.writelines(data)
      
 
@@ -42,5 +42,5 @@ if __name__ == '__main__':
     
     #count_increase('science',data)
 
-    with open('./newsfile.txt','w') as f:
+    with open('./src/main/java/app/news/output_link.txt','w') as f:
         f.writelines(final_link)

@@ -21,10 +21,11 @@ import javafx.scene.input.MouseEvent;
 import voice.VoiceR;
 import social.SocialNetwork;
 import ner.GetEntity;
-import media.PlayMedia;
+import media.PlayMedia;   
 import weather.ShowWeather;
 import notes.OpenNotes;
 import askUser.AskUser;
+import news.NewsReader;
 
 public class Dunsinane extends Application {
     private Scene scene;
@@ -89,12 +90,14 @@ public class Dunsinane extends Application {
         });
 
         textButton.setOnAction (e -> {
-
-            AskUser.askUser(stage,panel);
+            String newsTemp = NewsReader.readNews("");
+            System.out.println(newsTemp);
+            SocialNetwork.showBrowser(stage, panel, newsTemp);
+            //AskUser.askUser(stage,panel);
             //OpenNotes.openNote(stage, panel);
             //performTask (userInputField.getText (), stage);
         });
-        //
+      
         buttonPanel.getChildren().addAll(yes,no);
         buttonPanel.setSpacing(20);
         panel.getChildren ().addAll (userInputField, recordButton, textButton, buttonPanel);

@@ -1,2 +1,5 @@
-india	5
-science	3
+india	0
+science	0
+entertainment 0
+technology 0
+sports 0

@@ -1,0 +1,2 @@
+india	5
+science	3
