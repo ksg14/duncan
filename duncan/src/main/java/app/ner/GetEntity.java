@@ -32,7 +32,9 @@ public class GetEntity {
 
     // System.out.println(entity + " " + label);
     // return jsonString.substring (messageStart, messageStop);
-    return label + "," + entity;
+    if(label == "media" || label == "social" || label == "weather")
+      return label + "," + entity;
+    return entity + "," + label;
   }
   public static String callNER(String userQuery) {
     // String userQuery = "open facebook";

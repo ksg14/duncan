@@ -135,8 +135,11 @@ public class Dunsinane extends Application {
             userInputField.setText ("Which feed? Try \"open fb\", \"open twitter\", \"open gmail\", \"open youtube\".");
         }
         else if (entity.length() > 0){
+          if(entity.charAt(0) == ' ') {
+            entity = entity.substring(1);
+          }
           lastOpenedFeed = entity;
-          SocialNetwork.showBrowser(stage, panel, "https://" + entity);
+          SocialNetwork.showBrowser(stage, panel, "http://" + entity);
         }
       }
       //Media
