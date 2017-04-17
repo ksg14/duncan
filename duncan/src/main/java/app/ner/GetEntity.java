@@ -7,10 +7,37 @@ import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
 public class GetEntity {
+  public static void addPhraseToTrainSet (String label, String phrase) {
+     try {
+          String line, output = "";
+          String[] createArray = new String[4];
+
+          // first argument is the shell
+          createArray[0] = "node";
+          // second argument is the script
+          createArray[1] = "./ner/trainNER.js";
+          // third argument is the params
+          createArray[2] = label;
+          createArray[3] = phrase;
+
+          Process updateProcess = Runtime.getRuntime().exec(createArray, null);
+          BufferedReader response = new BufferedReader(new InputStreamReader(updateProcess.getInputStream()));
+
+          while((line = response.readLine()) != null) {
+              output += "\n" + line;
+          }
+          updateProcess.waitFor ();
+          System.out.println(output);
+       } catch (Exception ex) {
+          ex.printStackTrace();
+       }
+   }
  public static String [] callNER (String query) {
    String processedResponse [] = new String [3];
+   processedResponse[0] = "";
+   processedResponse[1] = "";
+   processedResponse[2] = "";
     try {
-         String entity = "", confidence = "", label = "";
 
          // create a new array of 2 strings
          String[] cmdArray = new String[3];
@@ -35,7 +62,7 @@ public class GetEntity {
              i++;
          }
          process.waitFor ();
-         System.out.println(processedResponse[1] + " " + processedResponse[2]);
+         System.out.println(processedResponse[1] + "- -" + processedResponse[2]);
          return processedResponse;
       } catch (Exception ex) {
          ex.printStackTrace();

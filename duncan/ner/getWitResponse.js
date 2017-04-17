@@ -23,9 +23,33 @@ var sendWitExpression = function (headers, method, host, path)
         {
             // console.log("Wit res - " + resStr);
             resStr = JSON.parse(resStr);
-            console.log(resStr.entities.entity[0].confidence);
-            console.log(resStr.entities.entity[0].metadata);
-            console.log(resStr.entities.entity[0].value);
+            // console.log(resStr.entities.entity[0].confidence);
+            // console.log(resStr.entities.entity[0].metadata);//label
+            // console.log(resStr.entities.entity[0].value);//entity
+            if(resStr.entities.social) {
+              var obj = resStr.entities.social;
+              console.log(obj[0].confidence);
+              console.log("social");
+              console.log(obj[0].value);
+            }
+            else if(resStr.entities.url) {
+              var obj = resStr.entities.url;
+              console.log(obj[0].confidence);
+              console.log("url");
+              console.log(obj[0].value);
+            }
+            else if(resStr.entities.intent) {
+              var obj = resStr.entities.intent;
+              console.log(obj[0].confidence);
+              console.log(obj[0].value);
+              console.log(obj[0].value);
+            }
+            else if(resStr.entities.message_body) {
+              var obj = resStr.entities.message_body;
+              console.log(obj[0].confidence);
+              console.log("media");
+              console.log(obj[0].value);
+            }
         });
         response.on('error', function(err)
         {

@@ -49,21 +49,16 @@ public class Dunsinane extends Application {
     private String str;
     String weatherString[] = new String [3];
     private String lastOpenedFeed = "";
-    private String lastQuery = "";
+    private String lastLabel = "";
+    private String lastEntity = "";
+    private String lastPhrase = "";
+
 
     @Override
     public void start (Stage stage) {
         //Setting TextField width and height
         userInputField.setPrefHeight (64);
         userInputField.setPrefWidth (500);
-        // weatherString = ShowWeather.showWeather();
-        // t1.setText(weatherString[0]);
-        // t2.setText(weatherString[1] + "weather");
-        // t3.setText(weatherString[2] + "celcius");
-        // t1.setEditable(false);
-        // t2.setEditable(false);
-        // t3.setEditable(false);
-        // weatherPanel.getChildren().addAll(t1,t2,t3);
 
         //Get MIC icon
         final String micImagePath = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRP-9pKSMlhW0nRBhRII2SRET6x8n7PENcdYMPX_iN3xDsNFXwGcQ";
@@ -84,20 +79,34 @@ public class Dunsinane extends Application {
           else {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
-            userInputField.setText (userCommand);            
+            userInputField.setText (userCommand);
             performTask (userCommand, stage);
           }
         });
 
         textButton.setOnAction (e -> {
-            String newsTemp = NewsReader.readNews("");
-            System.out.println(newsTemp);
-            SocialNetwork.showBrowser(stage, panel, newsTemp);
-            //AskUser.askUser(stage,panel);
+        //     String newsTemp = NewsReader.readNews("");
+        //     System.out.println(newsTemp);
+        //     SocialNetwork.showBrowser(stage, panel, newsTemp);
+        //     //AskUser.askUser(stage,panel);
+        //     //OpenNotes.openNote(stage, panel);
+        //     //performTask (userInputField.getText (), stage);
+        // });
+      
+            performTask (userInputField.getText (), stage);
+        });
+
+        yes.setOnAction (e -> {
+          lastPhrase = userInputField.getText().replace (" ", "%20");
+          GetEntity.addPhraseToTrainSet (lastLabel, lastEntity + "%40" + lastPhrase);
+            // AskUser.askUser(stage,panel);
             //OpenNotes.openNote(stage, panel);
             //performTask (userInputField.getText (), stage);
         });
-      
+        no.setOnAction (e -> {
+            AskUser.askUser(stage, panel, userInputField);
+        });
+        //
         buttonPanel.getChildren().addAll(yes,no);
         buttonPanel.setSpacing(20);
         panel.getChildren ().addAll (userInputField, recordButton, textButton, buttonPanel);
@@ -150,13 +159,25 @@ public class Dunsinane extends Application {
 
     private void performTask (String userCommand, Stage stage) {
       //TO-DO extract intents and call modules
-      String [] processedQuery = GetEntity.callNER (userCommand);
-      String confidence = processedQuery[0];
-      String label = processedQuery[1];
-      String entity = processedQuery[2];
+      double confidence = 0.0;
+      String label = "", entity = "";
 
+      String [] processedQuery = GetEntity.callNER (userCommand);
+      if(processedQuery[0].length() > 0)
+        confidence = Double.parseDouble(processedQuery[0]);
+      if(processedQuery[1].length() > 0)
+        label = processedQuery[1];
+      if(processedQuery[2].length() > 0)
+        entity = processedQuery[2];
+
+      //Persist Label n entity
+      lastLabel = label;
+      lastEntity = entity;
+
+      System.out.println(confidence);
       System.out.println(label);
       System.out.println(entity);
+
 
       //Social
       if(label.equals ("social")) {
@@ -169,11 +190,17 @@ public class Dunsinane extends Application {
         }
         else if (entity.length() > 0){
           lastOpenedFeed = entity;
-          SocialNetwork.showBrowser(stage, panel, "http://www." + entity + ".com");
+          if(entity.equals("mail"))
+            SocialNetwork.showBrowser(stage, panel, "http://mail.google.com");
+          else
+            SocialNetwork.showBrowser(stage, panel, "http://www." + entity + ".com");
         }
       }
+      else if(label.equals ("url")) {
+        SocialNetwork.showBrowser(stage, panel, "http:" + entity);
+      }
       //Media
-      if(label.equals ("media")) {
+      else if(label.equals ("media")) {
         //PlayMedia.playSong (entity);
         System.out.println("called " + entity);
         str = PlayMedia.playSong(entity);
@@ -181,14 +208,17 @@ public class Dunsinane extends Application {
             SocialNetwork.showBrowser(stage, panel, str);
       }
       //weather
-      if(label.equals ("weather")) {
+      else if(label.equals ("weather")) {
         ShowWeather.showWeather(stage, panel);
       }
-
       //Notes
-      // if(label.equals("notes")){
-      //   OpenNotes.takeNote(stage, panel);
-      // }
+      else if(label.equals("notes")){
+        OpenNotes.openNote(stage, panel);
+      }
+      //in case of no response
+      else {
+        System.out.println("in here");
+      }
     }
 
    /* private void saveNotesInFile()

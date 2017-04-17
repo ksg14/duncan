@@ -53,12 +53,8 @@ var sendWitExpression = function (jsonBody, headers, method, host, path)
 //Get JSON object
 var train = getTrainingSet ();
 
-var jsonBody = {
-    "id" : "entity",
-    "lookups":["trait"],
-    "values" : train
-};
-
+train.id = "entity";
+train.lookups = ["trait"];
 // console.log(jsonBody);
 
 var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
@@ -70,7 +66,7 @@ var headers = {
 };
 var method = "POST";
 
-  sendWitExpression (jsonBody, headers, method, hostUrl, urlPath);
+  sendWitExpression (train, headers, method, hostUrl, urlPath);
 };
 
 initialTrain ();
