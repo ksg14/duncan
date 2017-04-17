@@ -10,7 +10,7 @@ ext = ('.mp3'   )
 indexfile_name = 'songs.index'
 
 if sys.platform == 'win64':
-    rootdir = 'C:\\'    
+    rootdir = 'C:\\'
 else:
     rootdir = '/home/'
 
@@ -25,7 +25,7 @@ def open_file(filename):
 
 def retrieve_songs_with_count():
     name_count_tuples_list = []
-    with open(indexfile_name, "r") as f:        
+    with open(indexfile_name, "r") as f:
         for line in f.readlines():
             x = [i.strip() for i in line.split('/')]
             song_name_with_count = [i.strip() for i in x[-1].split('\t')]
@@ -39,7 +39,9 @@ def path_to_song(song_pos):
 
 def search_song(song_list,name):
     s_index = []
+    print (len(song_list))
     for i,(n,c) in enumerate(song_list):
+        print ("hey")
         if name in n:
             s_index.append((i,int(c)))
     sorted_by_count = sorted(s_index,key=lambda t:t[1] , reverse=True)
@@ -67,10 +69,9 @@ if __name__ == '__main__':
     song_name = ' '.join(x)
 
     name_count_tuples_list = retrieve_songs_with_count()
-
-    res = search_song(name_count_tuples_list,song_name)
+    print len(name_count_tuples_list)
+    #res = search_song(name_count_tuples_list,song_name)
     if len(res):
         checking_counts(res)
     else:
         webbrowser.open('https://www.youtube.com/results?search_query=' + song_name)
-
