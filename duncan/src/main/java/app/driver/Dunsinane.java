@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 //Driver Dependencies
 import voice.VoiceR;
 import social.SocialNetwork;
+import ner.GetEntity;
 
 public class Dunsinane extends Application {
     private Scene scene;
@@ -25,8 +26,10 @@ public class Dunsinane extends Application {
     private StackPane stackPane = new StackPane ();
     private TextField userInputField = new TextField ("Say something See something!");
     private Button recordButton;
+    private Button textButton;
     VoiceR voiceModule = new VoiceR ();
     boolean startRecord;
+    private String lastOpenedFeed = "";
 
     @Override
     public void start (Stage stage) {
@@ -41,6 +44,9 @@ public class Dunsinane extends Application {
         //Creating Record Button
         recordButton = new Button ("" , new ImageView (micIcon));
 
+        //Creating Text Button
+        textButton = new Button ("Go!");
+
         startRecord = true;
         recordButton.setOnAction (e -> {
           if(startRecord) {
@@ -51,11 +57,15 @@ public class Dunsinane extends Application {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
-            //TO-DO extract intents and call modules
+            performTask (userCommand, stage);
           }
         });
+
+        textButton.setOnAction (e -> {
+            performTask (userInputField.getText (), stage);
+        });
         //
-        panel.getChildren ().addAll (userInputField, recordButton);
+        panel.getChildren ().addAll (userInputField, recordButton, textButton);
         panel.setAlignment(Pos.CENTER);
 
         //Set stackPane
@@ -65,12 +75,6 @@ public class Dunsinane extends Application {
         // stackPane.setFitHeight(getHeight());
 
         stackPane.setPadding(new Insets(50,50,50,50));
-
-        // recordButton.setOnAction (e -> {
-        // //   VoiceR voiceModule = new VoiceR ();
-        // //   voiceModule.run ();
-        //     SocialNetwork.showBrowser(stage, panel, "http://m.facebook.com");
-        // });
 
         //Set Scene
         scene = new Scene (stackPane);
@@ -89,5 +93,34 @@ public class Dunsinane extends Application {
       int messageStop = jsonString.indexOf ("\"", messageStart);
       //System.out.println("start-" + messageStart + "stop-" + messageStop);
       return jsonString.substring (messageStart, messageStop);
+    }
+    private void performTask (String userCommand, Stage stage) {
+      //TO-DO extract intents and call modules
+      String processedQuery = GetEntity.callNER (userCommand);
+      int delimiterIndex = processedQuery.indexOf(",");
+      String label = processedQuery.substring(0, delimiterIndex);
+      String entity = processedQuery.substring(delimiterIndex + 1);
+
+      System.out.println(label);
+      System.out.println(entity);
+
+      //Social
+      if(label.equals ("social")) {
+        if(entity.equals ("ask")) {
+          System.out.println("last opened " + lastOpenedFeed);
+          if(lastOpenedFeed.length() > 0)
+            SocialNetwork.showBrowser(stage, panel, "https://" + lastOpenedFeed);
+          else
+            userInputField.setText ("Which feed? Try \"open fb\", \"open twitter\", \"open gmail\", \"open youtube\".");
+        }
+        else if (entity.length() > 0){
+          lastOpenedFeed = entity;
+          SocialNetwork.showBrowser(stage, panel, "https://" + entity);
+        }
+      }
+      //Media
+      if(label.equals ("media")) {
+        PlayMedia.playSong (entity);
+      }
     }
 }
