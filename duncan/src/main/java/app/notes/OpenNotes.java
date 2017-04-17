@@ -38,7 +38,7 @@ public class OpenNotes {
         
     }
 
-    public static void openNote(Stage stage, HBox panel)
+    public static void openNote(Stage stage, VBox panel)
     {
         String currentLine;
         TextField notesText = new TextField("");
@@ -60,7 +60,7 @@ public class OpenNotes {
         Scene scene;
         
         Button saveNotes = new Button("save");
-        stage.setTitle("Dunsinane Castle");
+        stage.setTitle("Dunsinane");
         flowPane.getChildren().addAll(notesText,saveNotes,panel);
         flowPane.setVgap(20);
         scene = new Scene(flowPane);

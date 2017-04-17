@@ -27,15 +27,15 @@ public class SocialNetwork extends Region
     public FlowPane flowPane = new FlowPane();
     
 
-    public static void showBrowser(Stage stage, HBox panel, String site)
+    public static void showBrowser(Stage stage, VBox panel, String site)
     {
-        stage.setTitle("Dunsinane Castle");
-        Scene scene = new Scene(new SocialNetwork(site, panel),800,700,Color.web("#666970"));
+        stage.setTitle("Dunsinane");
+        Scene scene = new Scene(new SocialNetwork(site, panel),800,750,Color.web("#666970"));
         stage.setScene(scene);
         //scene.getStylesheets().add("webviewsample/BrowserToolbar.css");        
         stage.show();
     }
-    public SocialNetwork(String site, HBox panel)
+    public SocialNetwork(String site, VBox panel)
     {
         //apply the styles
         getStyleClass().add("browser");

@@ -24,12 +24,12 @@ import javafx.scene.input.MouseEvent;
 
 public class ShowWeather {
 
-    public static void showOnScene(Stage stage, HBox panel, String [] str)
+    public static void showOnScene(Stage stage, VBox panel, String [] str)
     {
          FlowPane flowPane = new FlowPane();
         Scene scene;
          Text weatherText = new Text();
-        stage.setTitle("Dunsinane Castle");
+        stage.setTitle("Dunsinane");
         weatherText.setText(str[0] + " " + str[1] + " " + str[2]);
         flowPane.getChildren().addAll(weatherText,panel);
         flowPane.setVgap(20);
@@ -39,7 +39,7 @@ public class ShowWeather {
         stage.show();
     }
 
-    public static void readWeather(Stage stage, HBox panel)
+    public static void readWeather(Stage stage, VBox panel)
     {
         String str[] = new String [3];
         try{
@@ -58,7 +58,7 @@ public class ShowWeather {
         showOnScene(stage, panel, str);
  }
 
-  public static void showWeather (Stage stage, HBox panel) {
+  public static void showWeather (Stage stage, VBox panel) {
     try {
          // create a new array of 2 strings
          String[] cmdArray = new String[2];
