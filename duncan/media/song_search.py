@@ -80,9 +80,9 @@ if __name__ == '__main__':
         x = [sys.argv[i] for i in range(1,len(sys.argv))]
         song_name = ' '.join(x)
         res = search_song(name_count_tuples_list,song_name)
-        print(res)
         if len(res):
             checking_counts(res[0])
         else:
-            webbrowser.open('https://www.youtube.com/results?search_query=' + song_name)
+            with open('urlfile.txt','w') as f:
+                f.writelines('https://www.youtube.com/results?search_query=' + song_name)
 
