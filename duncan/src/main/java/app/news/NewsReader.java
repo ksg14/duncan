@@ -23,7 +23,6 @@ public class NewsReader {
             System.out.println(e);
           }
           return "false";
-         
  }
 
 
@@ -40,25 +39,26 @@ public class NewsReader {
          cmdArray[1] = "./src/main/java/app/news/news.py";
 
          // third argument is the song to be played
+         if(newsCategory.equals ("news"))
+          newsCategory = "fav";
          cmdArray[2] = newsCategory;
 
-         System.out.println(cmdArray);
+         System.out.println(cmdArray[2]);
          // print a message
          System.out.println("Displaying news....");
 
          // create a process and execute cmdArray and correct environment
          Process process = Runtime.getRuntime().exec(cmdArray, null);
-
-         process.waitFor ();
          BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            System.out.println(in.readLine());  
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-         System.out.println("should be working....");
+         String line, outputLine = "";
+        //  System.out.println(in.readLine());
+         while ((line = in.readLine()) != null) {
+              outputLine = line;
+         }
+         process.waitFor ();
          //response.close();
-        return getNews ();
+         System.out.println(outputLine);
+        return outputLine;
       } catch (Exception ex) {
          ex.printStackTrace();
       }

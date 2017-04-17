@@ -38,6 +38,13 @@ var sendWitExpression = function (headers, method, host, path)
               console.log("url");
               console.log(obj[0].value);
             }
+            // else if(resStr.entities.news && resStr.entities.intent[0].value == "news") {
+            else if(resStr.entities.news) {
+              var obj = resStr.entities.news;
+              console.log(obj[0].confidence);
+              console.log("news");
+              console.log(obj[0].value);
+            }
             else if(resStr.entities.intent) {
               var obj = resStr.entities.intent;
               console.log(obj[0].confidence);

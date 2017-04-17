@@ -39,6 +39,8 @@ public class PlayMedia {
          cmdArray[1] = "./media/song_search.py";
 
          // third argument is the song to be played
+         if(songName.equals ("media"))
+          songName = "fav";
          cmdArray[2] = songName;
 
          // print a message
