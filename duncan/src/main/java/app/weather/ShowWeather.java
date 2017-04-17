@@ -5,10 +5,43 @@ import java.io.IOException;
 import java.io.*;
 import java.lang.Object;
 import java.lang.*;
+import javafx.scene.control.TextArea;
+import javafx.application.*;
+import javafx.collections.*;
+import javafx.event.*;
+import javafx.geometry.*;
+import javafx.scene.*;
+import javafx.scene.canvas.*;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.*;
+import javafx.scene.shape.*;
+import javafx.scene.text.*;
+import javafx.stage.*;
+import java.io.*;
+import javafx.scene.input.MouseEvent;
 
 public class ShowWeather {
 
-    public static String[] readWeather()
+    public static void showOnScene(Stage stage, HBox panel, String [] str)
+    {
+         FlowPane flowPane = new FlowPane();
+        Scene scene;
+         Text weatherText = new Text();
+        stage.setTitle("Dunsinane Castle");
+
+        weatherText.setText(str[0] + " " + str[1] + " " + str[2]);
+
+        flowPane.getChildren().addAll(weatherText,panel);
+        flowPane.setVgap(20);
+        scene = new Scene(flowPane);
+        stage.setScene(scene);
+        //scene.getStylesheets().add("webviewsample/BrowserToolbar.css");        
+        stage.show();
+    }
+
+    public static void readWeather(Stage stage, HBox panel)
     {
         String str[] = new String [3];
         try{    
@@ -24,10 +57,10 @@ public class ShowWeather {
         }catch(Exception e) {
                 System.out.println(e); 
             }
-        return str; 
+        showOnScene(stage, panel, str);
  }  
     
-  public static String[] showWeather () {
+  public static void showWeather (Stage stage, HBox panel) {
     try {
          // create a new array of 2 strings
          String[] cmdArray = new String[2];
@@ -49,7 +82,7 @@ public class ShowWeather {
          ex.printStackTrace();
       }
       
-      return readWeather();
+      readWeather( stage,  panel);
   }
 
 }

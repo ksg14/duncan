@@ -10,11 +10,12 @@
 
 //     public static String getLabel()
 //     {
+//         String s = " ";
 //         try{   
 
 //             FileReader fr = new FileReader("./src/main/java/app/nltk/classificationLabel.txt");    
 //             BufferedReader br = new BufferedReader(fr); 
-//             String s;
+            
 //             int i = 0;
 //             while((s = br.readLine()) != null) {
 //                 return s;
@@ -28,14 +29,14 @@
 //   public static String labelGenerator (String query) {
 
 //     try {
-//          // create a new array of 2 strings
-//          String[] cmdArray = new String[2];
+//          // create a new array of 3 strings
+//          String[] cmdArray = new String[3];
 
 //          // first argument is the program we want to open
 //          cmdArray[0] = "python3";
 
 //          // second argument is a txt file we want to open with notepad
-//          cmdArray[1] = "nbClassifier.py";
+//          cmdArray[1] = "./src/main/java/app/nltk/nbClassifier.py";
 
 //          //User Query
 //          cmdArray[2] = query;
@@ -50,4 +51,10 @@
 //       }
 //       return getLabel();
 //   }
+//   /*public static void main(String args [])
+//   {
+//       String q = labelGenerator("open facebook");
+//       System.out.println(q);
+//   }*/
 // }
+
