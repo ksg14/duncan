@@ -9,7 +9,8 @@ import java.nio.ByteBuffer;
 public class GetTextFromVoice {
   public static String run(String audioFilePath) throws Exception {
       String url = "https://api.wit.ai/speech";
-      String key = "MBUI4F7DKUYSD6655B6QYW54I2HRMGR2";
+      // String key = "MBUI4F7DKUYSD6655B6QYW54I2HRMGR2";
+      String key = "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
 
       String param1 = "20170203";
       String param2 = "command";
