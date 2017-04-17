@@ -40,8 +40,7 @@ public class PlayMedia {
          ex.printStackTrace();
       }
   }
-  public static void indexMediaFiles () {);
-
+  public static void indexMediaFiles () {
     try {
          // create a new array of 2 strings
          String[] cmdArray = new String[2];
