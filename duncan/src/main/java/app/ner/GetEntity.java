@@ -7,35 +7,42 @@ import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
 public class GetEntity {
-  private static String extractMessage (String jsonString) {
-    String entity = "", entityConfidenceStr, label = "", labelConfidenceStr;
+ public static String [] callNER (String query) {
+   String processedResponse [] = new String [3];
+    try {
+         String entity = "", confidence = "", label = "";
 
-    String textDelimToken = "\"confidence\" : ";
-    int messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
-    int messageStop = jsonString.indexOf (",", messageStart);
-    entityConfidenceStr = jsonString.substring (messageStart, messageStop);
+         // create a new array of 2 strings
+         String[] cmdArray = new String[3];
 
-    textDelimToken = "\"value\" : \"";
-    messageStart = jsonString.indexOf (textDelimToken) + textDelimToken.length();
-    messageStop = jsonString.indexOf ("\"", messageStart);
-    entity = jsonString.substring (messageStart, messageStop);
+         // first argument is the shell
+         cmdArray[0] = "node";
+         // second argument is the script
+         cmdArray[1] = "./ner/getWitResponse.js";
+         // third argument is the params
+        //  cmdArray[2] = "take%20a%20note";
+         System.out.println(query.replace (" ", "%20"));
+         cmdArray[2] = query.replace (" ", "%20");
 
-    textDelimToken = "\"confidence\" : ";
-    messageStart = jsonString.indexOf (textDelimToken, messageStop) + textDelimToken.length();
-    messageStop = jsonString.indexOf (",", messageStart);
-    labelConfidenceStr = jsonString.substring (messageStart, messageStop);
+         // create a process and execute cmdArray and correct environment
+         Process process = Runtime.getRuntime().exec(cmdArray, null);
+         BufferedReader response = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-    textDelimToken = "\"value\" : \"";
-    messageStart = jsonString.indexOf (textDelimToken, messageStop) + textDelimToken.length();
-    messageStop = jsonString.indexOf ("\"", messageStart);
-    label = jsonString.substring (messageStart, messageStop);
-
-    if(label.equals ("media") || label.equals ("social") || label.equals ("weather")) {
-      return label + "," + entity;
-    } 
-    return entity + "," + label;
+         String line;
+         int i = 0;
+         while((line = response.readLine()) != null) {
+             processedResponse[i] = line;
+             i++;
+         }
+         process.waitFor ();
+         System.out.println(processedResponse[1] + " " + processedResponse[2]);
+         return processedResponse;
+      } catch (Exception ex) {
+         ex.printStackTrace();
+      }
+    return processedResponse;
   }
-  public static String callNER(String userQuery) {
+  public static String sendGetRequest(String userQuery) {
     // String userQuery = "open facebook";
     String processedQuery = userQuery.replace (" ", "%20");
     String url = "https://api.wit.ai/message";
@@ -57,7 +64,7 @@ public class GetEntity {
           witResponse += line;
       }
       System.out.println(witResponse);
-      return extractMessage (witResponse);
+      // return extractMessage (witResponse);
     } catch (UnsupportedEncodingException e) {
       System.out.println("Error in calling NER module. UnsupportedEncodingException");
     } catch (MalformedURLException e) {
