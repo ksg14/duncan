@@ -31,7 +31,7 @@ public class Dunsinane extends Application {
     private HBox buttonPanel = new HBox();
     private VBox vb = new VBox();
     private StackPane stackPane = new StackPane ();
-        
+
     private TextField userInputField = new TextField ("Say something See something!");
     private Text t1 = new Text();
     private Text t2 = new Text();
@@ -40,7 +40,7 @@ public class Dunsinane extends Application {
     private Button textButton;
     private Button yes = new Button("YES");
     private Button no = new Button("NO");
-    
+
     VoiceR voiceModule = new VoiceR ();
     boolean startRecord;
     private String str;
@@ -82,7 +82,7 @@ public class Dunsinane extends Application {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
-  
+
             performTask (userCommand, stage);
           }
         });
@@ -106,7 +106,7 @@ public class Dunsinane extends Application {
         //Set stackPane
         //stackPane.getChildren ().addAll (panel);
         stackPane.getChildren ().add (vb);
-         
+
         //NOtes set on action buttonhandler
         // notes.setOnAction (e -> {
         //     notes.TakeNotes.openNotes(stage);
@@ -184,20 +184,18 @@ public class Dunsinane extends Application {
       }
     }
 
-    
-
-   /* private void saveNotesInFile() 
+   /* private void saveNotesInFile()
     {
         try{
             String userNotes = notesText.getText();
-            //System.out.println(userNotes);  
+            //System.out.println(userNotes);
             FileWriter fr = new FileWriter(".src/main/java/appuserNotes.txt");
             BufferedWriter bw = new BufferedWriter(fr);
             bw.write(userNotes);
             bw.close();
-        } 
+        }
         catch(IOException ie){}
-        
+
     }*/
 
 
