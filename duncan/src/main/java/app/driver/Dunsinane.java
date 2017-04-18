@@ -23,6 +23,8 @@ import social.SocialNetwork;
 import ner.GetEntity;
 import media.PlayMedia;
 import weather.ShowWeather;
+import notes.OpenNotes;
+import askUser.AskUser;
 
 public class Dunsinane extends Application {
     private Scene scene;
@@ -77,7 +79,6 @@ public class Dunsinane extends Application {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
-
             performTask (userCommand, stage);
           }
         });
@@ -89,6 +90,9 @@ public class Dunsinane extends Application {
         yes.setOnAction (e -> {
           lastPhrase = userInputField.getText().replace (" ", "%20");
           GetEntity.addPhraseToTrainSet (lastLabel, lastEntity + "%40" + lastPhrase);
+            // AskUser.askUser(stage,panel);
+            //OpenNotes.openNote(stage, panel);
+            //performTask (userInputField.getText (), stage);
         });
         //
         buttonPanel.getChildren().addAll(yes,no);
@@ -190,9 +194,15 @@ public class Dunsinane extends Application {
             SocialNetwork.showBrowser(stage, panel, str);
       }
       //weather
+
       else if(label.equals ("weather")) {
         ShowWeather.showWeather(stage, panel);
       }
+
+      //Notes
+      // if(label.equals("notes")){
+      //   OpenNotes.takeNote(stage, panel);
+      // }
     }
 
    /* private void saveNotesInFile()
