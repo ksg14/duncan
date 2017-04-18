@@ -33,29 +33,29 @@ var getQuery = function () {
 var updateFile = function (train) {
   var fs = require('fs')
   fs.truncate('./trainingFile.json', 0, function(){
-    console.log('cleared');
+    // console.log('cleared');
     fs.writeFile('./trainingFile.json', JSON.stringify(train), function(){
-      console.log('Updated');
+      // console.log('Updated');
     });
   });
 }
 
 var updateTrainingSetJson = function (train, query) {
   var i, j;
-  for(i = 0; i < train.length; i++) {
-    if(train[i].value == query.entity) {
-      for(j = 0; j < train[i].expressions.length; j++) {
-        if(train[i].expressions[j] == query.phrase) {
+  for(i = 0; i < train.values.length; i++) {
+    if(train.values[i].value == query.entity) {
+      for(j = 0; j < train.values[i].expressions.length; j++) {
+        if(train.values[i].expressions[j] == query.phrase) {
           // console.log (train);
           return train;
         }
       }
-      train[i].expressions.push (query.phrase);
+      train.values[i].expressions.push (query.phrase);
       // console.log (train);
       return train;
     }
   }
-  train.push ({
+  train.values.push ({
     "value": query.entity,
     "expressions":[
                   query.phrase
@@ -88,7 +88,7 @@ var updateTrainingSet = function(event, context) {
             });
             response.on('end', function ()
             {
-                console.log("Wit res - " + resStr);
+                // console.log("Wit res - " + resStr);
                 // resStr = JSON.parse(resStr);
            });
             response.on('error', function(err)
@@ -105,7 +105,6 @@ var updateTrainingSet = function(event, context) {
         console.log('problem with request: '+ e);
         context.fail(e,{});
       });
-
       req.write(body);//send json
       req.end();
     };
@@ -114,12 +113,8 @@ var updateTrainingSet = function(event, context) {
     var train = updateTrainingSetJson (getTrainingSet(), getQuery());
     updateFile (train);
 
-    var jsonBody = {
-        "id" : "entity",
-        "lookups":["trait"],
-        "values" : train
-    };
-
+    train.id = "entity";
+    train.lookups = ["trait"];
     //  console.log(jsonBody);
 
     var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
@@ -131,60 +126,124 @@ var updateTrainingSet = function(event, context) {
     };
     var method = "POST";
 
-     sendWitExpression (jsonBody, headers, method, hostUrl, urlPath);
+     sendWitExpression (train, headers, method, hostUrl, urlPath);
   };
 
-var sendWitExpression = function (headers, method, host, path)
-{
-  var options = {
-      host: host,
-      path: path,
-      method: method,
-      headers: headers
+var deleteEntity = function () {
+  var sendWitExpression = function (headers, method, host, path)
+  {
+    var options = {
+        host: host,
+        path: path,
+        method: method,
+        headers: headers
+      };
+
+    var req_callback = function(response)
+    {
+          var resStr = "";
+          response.on('data', function (chunk)
+          {
+             // console.log("fb " + chunk.message_id)
+            resStr += chunk;
+            //console.log(str); //logs FB's response (recipientid and msg id)
+          });
+          response.on('end', function ()
+          {
+              // console.log("Wit res - " + resStr);
+              // resStr = JSON.parse(resStr);
+              createEntity ();
+          });
+          response.on('error', function(err)
+          {
+              console.log('problem with request: '+ e);
+              context.fail(err,{});
+          });
+    }
+
+    var req = https.request(options, req_callback);
+
+    req.on('error', function(e)
+    {
+      console.log('problem with request: '+ e);
+      context.fail(e,{});
+    });
+
+    req.end();
+  };
+
+  var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
+  var hostUrl = "api.wit.ai";
+  var urlPath = "/entities/entity?v=17/04/2017";
+  var headers = {
+    "Authorization": witToken,
+  };
+  var method = "DELETE";
+
+     sendWitExpression (headers, method, hostUrl, urlPath);
+  };
+
+  var getEntity = function () {
+    var sendWitExpression = function (headers, method, host, path)
+    {
+      var options = {
+          host: host,
+          path: path,
+          method: method,
+          headers: headers
+        };
+
+      var req_callback = function(response)
+      {
+            var resStr = "";
+            response.on('data', function (chunk)
+            {
+               // console.log("fb " + chunk.message_id)
+              resStr += chunk;
+              //console.log(str); //logs FB's response (recipientid and msg id)
+            });
+            response.on('end', function ()
+            {
+                // console.log("Wit res - " + resStr);
+                resStr = JSON.parse(resStr);
+                var updateTrainObj = {
+                  "id" : resStr.name,
+                  "lookups" : resStr.lookups,
+                  "values" : resStr.values
+                }
+                updateFile (updateTrainObj);
+                deleteEntity();
+            });
+            response.on('error', function(err)
+            {
+                console.log('problem with request: '+ e);
+                context.fail(err,{});
+            });
+      }
+
+      var req = https.request(options, req_callback);
+
+      req.on('error', function(e)
+      {
+        console.log('problem with request: '+ e);
+        context.fail(e,{});
+      });
+
+      req.end();
     };
 
-  var req_callback = function(response)
-  {
-        var resStr = "";
-        response.on('data', function (chunk)
-        {
-           // console.log("fb " + chunk.message_id)
-          resStr += chunk;
-          //console.log(str); //logs FB's response (recipientid and msg id)
-        });
-        response.on('end', function ()
-        {
-            console.log("Wit res - " + resStr);
-            // resStr = JSON.parse(resStr);
-            createEntity ();
-        });
-        response.on('error', function(err)
-        {
-            console.log('problem with request: '+ e);
-            context.fail(err,{});
-        });
-  }
+    var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
+    var hostUrl = "api.wit.ai";
+    var urlPath = "/entities/entity?v=17/04/2017";
+    var headers = {
+      "Authorization": witToken,
+    };
+    var method = "GET";
 
-  var req = https.request(options, req_callback);
+    sendWitExpression (headers, method, hostUrl, urlPath);
+  };
 
-  req.on('error', function(e)
-  {
-    console.log('problem with request: '+ e);
-    context.fail(e,{});
-  });
-
-  req.end();
-};
-
-var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
-var hostUrl = "api.wit.ai";
-var urlPath = "/entities/entity?v=17/04/2017";
-var headers = {
-  "Authorization": witToken,
-};
-var method = "DELETE";
-
-   sendWitExpression (headers, method, hostUrl, urlPath);
+  getEntity ();
 };
 
 updateTrainingSet ();
