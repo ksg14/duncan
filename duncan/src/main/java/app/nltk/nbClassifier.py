@@ -20,7 +20,7 @@
 #             train.append( ( x[1] , x[0]) )
 #             #print(x)
 #     cl = NaiveBayesClassifier(train)
-#     with open('./nltk/classificationLabel.txt','w') as f:
+#     with open('./src/main/java/app/nltk/classificationLabel.txt','w') as f:
 #         f.writelines(c1)
 
 #     # Classify some text

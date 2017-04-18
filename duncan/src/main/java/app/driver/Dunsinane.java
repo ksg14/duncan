@@ -14,6 +14,7 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
+import java.io.*;
 import javafx.scene.input.MouseEvent;
 
 //Driver Dependencies
@@ -27,14 +28,19 @@ public class Dunsinane extends Application {
     private Scene scene;
     private HBox panel = new HBox ();
     private HBox weatherPanel = new HBox();
+    private HBox buttonPanel = new HBox();
     private VBox vb = new VBox();
     private StackPane stackPane = new StackPane ();
+        
     private TextField userInputField = new TextField ("Say something See something!");
     private Text t1 = new Text();
     private Text t2 = new Text();
     private Text t3 = new Text();
     private Button recordButton;
     private Button textButton;
+    private Button yes = new Button("YES");
+    private Button no = new Button("NO");
+    
     VoiceR voiceModule = new VoiceR ();
     boolean startRecord;
     private String str;
@@ -76,26 +82,40 @@ public class Dunsinane extends Application {
             startRecord = true;
             String userCommand = extractMessage(voiceModule.stop ());
             userInputField.setText (userCommand);
+  
             performTask (userCommand, stage);
           }
         });
 
         textButton.setOnAction (e -> {
-            performTask (userInputField.getText (), stage);
+            ShowWeather.showWeather(stage, panel);
+            //performTask (userInputField.getText (), stage);
         });
         //
-        panel.getChildren ().addAll (userInputField, recordButton, textButton);
+        buttonPanel.getChildren().addAll(yes,no);
+        buttonPanel.setSpacing(20);
+        panel.getChildren ().addAll (userInputField, recordButton, textButton, buttonPanel);
         panel.setAlignment(Pos.CENTER);
-
 
         weatherPanel.getChildren().addAll(t1,t2,t3);
 
-        vb.getChildren().addAll(panel, weatherPanel);
+        // vb.getChildren().addAll(panel, weatherPanel);
+        vb.getChildren().add(panel);
 
         vb.setSpacing(20);
         //Set stackPane
         //stackPane.getChildren ().addAll (panel);
         stackPane.getChildren ().add (vb);
+         
+        //NOtes set on action buttonhandler
+        // notes.setOnAction (e -> {
+        //     notes.TakeNotes.openNotes(stage);
+        // });
+
+        //saving notes
+       /* saveNotes.setOnAction(e -> {
+            saveNotesInFile();
+        });*/
 
         // stackPane.setFitWidth(getWidth());
         // stackPane.setFitHeight(getHeight());
@@ -156,10 +176,29 @@ public class Dunsinane extends Application {
       }
       //weather
       if(label.equals ("weather")) {
-        weatherString = ShowWeather.showWeather();
-        t1.setText(weatherString[0]);
-        t2.setText(weatherString[1] + " weather");
-        t3.setText(weatherString[2] + " celcius");
+        // weatherString = ShowWeather.showWeather();
+        // t1.setText(weatherString[0]);
+        // t2.setText(weatherString[1] + " weather");
+        // t3.setText(weatherString[2] + " celcius");
+        ShowWeather.showWeather(stage, panel);
       }
     }
+
+    
+
+   /* private void saveNotesInFile() 
+    {
+        try{
+            String userNotes = notesText.getText();
+            //System.out.println(userNotes);  
+            FileWriter fr = new FileWriter(".src/main/java/appuserNotes.txt");
+            BufferedWriter bw = new BufferedWriter(fr);
+            bw.write(userNotes);
+            bw.close();
+        } 
+        catch(IOException ie){}
+        
+    }*/
+
+
 }
