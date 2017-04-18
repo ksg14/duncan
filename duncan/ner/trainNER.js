@@ -6,6 +6,16 @@ var getTrainingSet = function () {
   return trainingSet;
 }
 
+var updateFile = function (train) {
+  var fs = require('fs')
+  fs.truncate('./ner/trainingFile.json', 0, function(){
+    // console.log('cleared');
+    fs.writeFile('./ner/trainingFile.json', JSON.stringify(train), function(){
+      //  console.log('Updated');
+    });
+  });
+}
+
 var getQuery = function () {
   var i, entity = "", phrase;
   // for(i = 3; i < process.argv.length; i++) {
@@ -29,16 +39,6 @@ var getQuery = function () {
   // console.log(queryObj);
   return queryObj;
 };
-
-var updateFile = function (train) {
-  var fs = require('fs')
-  fs.truncate('./trainingFile.json', 0, function(){
-    // console.log('cleared');
-    fs.writeFile('./trainingFile.json', JSON.stringify(train), function(){
-      // console.log('Updated');
-    });
-  });
-}
 
 var updateTrainingSetJson = function (train, query) {
   var i, j;
@@ -66,7 +66,7 @@ var updateTrainingSetJson = function (train, query) {
   return train;
 }
 
-var updateTrainingSet = function(event, context) {
+var updateTrainingSet = function(query) {
   var createEntity = function () {
     var sendWitExpression = function (jsonBody, headers, method, host, path)
     {
@@ -88,7 +88,7 @@ var updateTrainingSet = function(event, context) {
             });
             response.on('end', function ()
             {
-                // console.log("Wit res - " + resStr);
+                console.log("\nWit res - " + resStr);
                 // resStr = JSON.parse(resStr);
            });
             response.on('error', function(err)
@@ -125,7 +125,7 @@ var updateTrainingSet = function(event, context) {
       "Content-Type": "application/json"
     };
     var method = "POST";
-
+    console.log("called create");
      sendWitExpression (train, headers, method, hostUrl, urlPath);
   };
 
@@ -150,9 +150,9 @@ var deleteEntity = function () {
           });
           response.on('end', function ()
           {
-              // console.log("Wit res - " + resStr);
+              console.log("Wit res - " + resStr);
               // resStr = JSON.parse(resStr);
-              createEntity ();
+              createEntity();
           });
           response.on('error', function(err)
           {
@@ -183,6 +183,64 @@ var deleteEntity = function () {
      sendWitExpression (headers, method, hostUrl, urlPath);
   };
 
+  var updateEntity = function (train) {
+    var sendWitExpression = function (jsonBody, headers, method, host, path)
+    {
+      var body = JSON.stringify(jsonBody);
+
+      var options = {
+          host: host,
+          path: path,
+          method: method,
+          headers: headers
+        };
+
+      var req_callback = function(response)
+      {
+            var resStr = "";
+            response.on('data', function (chunk)
+            {
+              resStr += chunk;
+            });
+            response.on('end', function ()
+            {
+                console.log("Wit res - " + resStr);
+                // resStr = JSON.parse(resStr);
+                console.log("Updated");
+           });
+            response.on('error', function(err)
+            {
+                console.log('problem with request: '+ e);
+                context.fail(err,{});
+            });
+      }
+
+      var req = https.request(options, req_callback);
+
+      req.on('error', function(e)
+      {
+        console.log('problem with request: '+ e);
+        context.fail(e,{});
+      });
+      req.write(body);//send json
+      req.end();
+    };
+
+    var trainUpdated = updateTrainingSetJson (train, query);
+    //train.lookups = ["trait"];
+    // console.log(jsonBody);
+
+    var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
+    var hostUrl = "api.wit.ai";
+    var urlPath = "/entities/" + query.label + "?v=17/04/2017";
+    var headers = {
+      "Authorization": witToken,
+      "Content-Type": "application/json"
+    };
+    var method = "PUT";
+     sendWitExpression (trainUpdated, headers, method, hostUrl, urlPath);
+  };
+
   var getEntity = function () {
     var sendWitExpression = function (headers, method, host, path)
     {
@@ -204,15 +262,14 @@ var deleteEntity = function () {
             });
             response.on('end', function ()
             {
-                // console.log("Wit res - " + resStr);
+                console.log("Wit res - " + resStr);
                 resStr = JSON.parse(resStr);
                 var updateTrainObj = {
                   "id" : resStr.name,
-                  "lookups" : resStr.lookups,
                   "values" : resStr.values
                 }
-                updateFile (updateTrainObj);
-                deleteEntity();
+                updateEntity (updateTrainObj);
+                // deleteEntity();
             });
             response.on('error', function(err)
             {
@@ -234,7 +291,7 @@ var deleteEntity = function () {
 
     var witToken = "Bearer " + "OU5YMP53HCXJTM7CWWLQPFXX57YYCPAO";
     var hostUrl = "api.wit.ai";
-    var urlPath = "/entities/entity?v=17/04/2017";
+    var urlPath = "/entities/" + query.label + "?v=17/04/2017";
     var headers = {
       "Authorization": witToken,
     };
@@ -246,4 +303,6 @@ var deleteEntity = function () {
   getEntity ();
 };
 
-updateTrainingSet ();
+var query = getQuery ();
+
+updateTrainingSet (query);
