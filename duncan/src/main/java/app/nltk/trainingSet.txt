@@ -1,0 +1,6 @@
+PLAY	play a song PLAY
+ALARM	set an alarm for ALARM
+ALARM	remind me to ALARM
+SOCIAL	open fb twitter SOCIAL
+WEATHER	display today WEATHER
+NEWS	see headlines NEWS
