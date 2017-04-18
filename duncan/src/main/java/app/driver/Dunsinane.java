@@ -21,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 import voice.VoiceR;
 import social.SocialNetwork;
 import ner.GetEntity;
-import media.PlayMedia;   
+import media.PlayMedia;
 import weather.ShowWeather;
 import notes.OpenNotes;
 import askUser.AskUser;
@@ -92,7 +92,7 @@ public class Dunsinane extends Application {
         //     //OpenNotes.openNote(stage, panel);
         //     //performTask (userInputField.getText (), stage);
         // });
-      
+
             performTask (userInputField.getText (), stage);
         });
 
@@ -215,9 +215,12 @@ public class Dunsinane extends Application {
       else if(label.equals("notes")){
         OpenNotes.openNote(stage, panel);
       }
+      else if(label.equals("news")) {
+        SocialNetwork.showBrowser(stage, panel, NewsReader.readNews (entity));
+      }
       //in case of no response
       else {
-        System.out.println("in here");
+        userInputField.setText ("Could Not Understand.");
       }
     }
 
