@@ -66,11 +66,11 @@ public class Dunsinane extends Application {
         //Setting TextField width and height
         userInputField.setPrefHeight (64);
         userInputField.setPrefWidth (500);
-        
+
         // image = new Image("img.jpg");
         // ImageView = new ImageView(image);
         // textButton.setMaxWidth(20);
-        //textButton.setMinWidth(20); 
+        //textButton.setMinWidth(20);
         // textButton.setMaxHeight(20);
 
         //Get MIC icon
@@ -118,8 +118,11 @@ public class Dunsinane extends Application {
         no.setOnAction (e -> {
             AskUser.askUser(stage, panel, userInputField);
         });
+        songIndex.setOnAction (e -> {
+            PlayMedia.indexMediaFiles();
+        });
 
-        
+
         hPanel.setSpacing(15);
         hPanel.setPadding(new Insets(0,30,0,30));
         //hPanel.setPadding(new Insets(10))
