@@ -71,7 +71,7 @@ if __name__ == '__main__':
     name_count_tuples_list = retrieve_songs_with_count()
     with open('./media/urlfile.txt','w') as f:
         f.writelines('false')
-    if len(sys.argv) == 1:
+    if sys.argv[1] == 'fav':
         song_pos = find_fav(name_count_tuples_list)
         #count_increase(song_pos)
         print(song_pos)
