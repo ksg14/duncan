@@ -94,6 +94,9 @@ public class Dunsinane extends Application {
             //OpenNotes.openNote(stage, panel);
             //performTask (userInputField.getText (), stage);
         });
+        no.setOnAction (e -> {
+            AskUser.askUser(stage, panel, userInputField);
+        });
         //
         buttonPanel.getChildren().addAll(yes,no);
         buttonPanel.setSpacing(20);
@@ -166,13 +169,9 @@ public class Dunsinane extends Application {
       System.out.println(label);
       System.out.println(entity);
 
-      //In case of no response
-      if(label.length() <= 0 || confidence <= 0.7 || entity.length() <= 0)
-      {
-        System.out.println("in here");
-      }
+
       //Social
-      else if(label.equals ("social")) {
+      if(label.equals ("social")) {
         if(entity.equals ("ask")) {
           System.out.println("last opened " + lastOpenedFeed);
           if(lastOpenedFeed.length() > 0)
@@ -182,8 +181,14 @@ public class Dunsinane extends Application {
         }
         else if (entity.length() > 0){
           lastOpenedFeed = entity;
-          SocialNetwork.showBrowser(stage, panel, "http://www." + entity + ".com");
+          if(entity.equals("mail"))
+            SocialNetwork.showBrowser(stage, panel, "http://mail.google.com");
+          else
+            SocialNetwork.showBrowser(stage, panel, "http://www." + entity + ".com");
         }
+      }
+      else if(label.equals ("url")) {
+        SocialNetwork.showBrowser(stage, panel, "http:" + entity);
       }
       //Media
       else if(label.equals ("media")) {
@@ -194,15 +199,17 @@ public class Dunsinane extends Application {
             SocialNetwork.showBrowser(stage, panel, str);
       }
       //weather
-
       else if(label.equals ("weather")) {
         ShowWeather.showWeather(stage, panel);
       }
-
       //Notes
-      // if(label.equals("notes")){
-      //   OpenNotes.takeNote(stage, panel);
-      // }
+      else if(label.equals("notes")){
+        OpenNotes.openNote(stage, panel);
+      }
+      //in case of no response
+      else {
+        System.out.println("in here");
+      }
     }
 
    /* private void saveNotesInFile()

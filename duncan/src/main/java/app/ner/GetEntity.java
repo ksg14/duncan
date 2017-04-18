@@ -9,23 +9,25 @@ import java.nio.ByteBuffer;
 public class GetEntity {
   public static void addPhraseToTrainSet (String label, String phrase) {
      try {
-          // create a new array of 2 strings
-          String[] cmdArray = new String[4];
+          String line, output = "";
+          String[] createArray = new String[4];
 
           // first argument is the shell
-          cmdArray[0] = "node";
+          createArray[0] = "node";
           // second argument is the script
-          cmdArray[1] = "./ner/trainNER.js";
+          createArray[1] = "./ner/trainNER.js";
           // third argument is the params
-          //  cmdArray[2] = "take%20a%20note";
-          cmdArray[2] = label;
-          cmdArray[3] = phrase;
+          createArray[2] = label;
+          createArray[3] = phrase;
 
-          System.out.println(label + " " + phrase);
-          // create a process and execute cmdArray and correct environment
-          Process process = Runtime.getRuntime().exec(cmdArray, null);
-          process.waitFor ();
-          System.out.println(label + " " + phrase);
+          Process updateProcess = Runtime.getRuntime().exec(createArray, null);
+          BufferedReader response = new BufferedReader(new InputStreamReader(updateProcess.getInputStream()));
+
+          while((line = response.readLine()) != null) {
+              output += "\n" + line;
+          }
+          updateProcess.waitFor ();
+          System.out.println(output);
        } catch (Exception ex) {
           ex.printStackTrace();
        }
