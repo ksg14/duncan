@@ -40,6 +40,7 @@ public class Dunsinane extends Application {
     private String str;
     String weatherString[] = new String [3];
     private String lastOpenedFeed = "";
+    private String lastQuery = "";
 
     @Override
     public void start (Stage stage) {
@@ -120,13 +121,13 @@ public class Dunsinane extends Application {
       //System.out.println("start-" + messageStart + "stop-" + messageStop);
       return jsonString.substring (messageStart, messageStop);
     }
-      
+
     private void performTask (String userCommand, Stage stage) {
       //TO-DO extract intents and call modules
-      String processedQuery = GetEntity.callNER (userCommand);
-      int delimiterIndex = processedQuery.indexOf(",");
-      String label = processedQuery.substring(0, delimiterIndex);
-      String entity = processedQuery.substring(delimiterIndex + 1);
+      String [] processedQuery = GetEntity.callNER (userCommand);
+      String confidence = processedQuery[0];
+      String label = processedQuery[1];
+      String entity = processedQuery[2];
 
       System.out.println(label);
       System.out.println(entity);
@@ -136,16 +137,13 @@ public class Dunsinane extends Application {
         if(entity.equals ("ask")) {
           System.out.println("last opened " + lastOpenedFeed);
           if(lastOpenedFeed.length() > 0)
-            SocialNetwork.showBrowser(stage, panel, "https://" + lastOpenedFeed);
+            SocialNetwork.showBrowser(stage, panel, "http://www." + lastOpenedFeed + ".com");
           else
             userInputField.setText ("Which feed? Try \"open fb\", \"open twitter\", \"open gmail\", \"open youtube\".");
         }
         else if (entity.length() > 0){
-          if(entity.charAt(0) == ' ') {
-            entity = entity.substring(1);
-          }
           lastOpenedFeed = entity;
-          SocialNetwork.showBrowser(stage, panel, "http://" + entity);
+          SocialNetwork.showBrowser(stage, panel, "http://www." + entity + ".com");
         }
       }
       //Media
@@ -154,7 +152,7 @@ public class Dunsinane extends Application {
         System.out.println("called " + entity);
         str = PlayMedia.playSong(entity);
         if(!str.equals("false"))
-            SocialNetwork.showBrowser(stage, panel, str);    
+            SocialNetwork.showBrowser(stage, panel, str);
       }
       //weather
       if(label.equals ("weather")) {
