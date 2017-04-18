@@ -19,15 +19,17 @@ def read_file():
             data.append(x)
     return data
 
-def count_increase(category_name,data):
-    print(data)
-    for pos,i,j in enumerate(data):
-        if i == category_name:
-            data[pos][1] += 1
-            data[pos][1] = str(data[pos][1])
-    print(data)
+def count_increase(category_name):
+    new_data = []
+    with open('news.txt','r') as f:
+        for line in f.readlines():
+            x = [i.strip() for i in line.split('\t')]
+            if x[0] == category_name:
+                x[1] = str(int(x[1]) + 1)
+            tt = x[0] + '\t' + x[1] + '\n'
+            new_data.append(tt)
     with open('news.txt','w') as f:
-        f.writelines(data)
+        f.writelines(new_data)
      
 
 if __name__ == '__main__':
@@ -36,11 +38,12 @@ if __name__ == '__main__':
     if(len(sys.argv) == 1):
         sorted_list = sorted(data,key = lambda t:t[1] , reverse=True)
         final_link = news_links[sorted_list[0][0]]
+        category = sorted_list[0][0]
     else:
         category = sys.argv[1]
         final_link = news_links[category]
     
-    #count_increase('science',data)
+    count_increase(category)
 
     with open('news_output_link.txt','w') as f:
         f.writelines(final_link)

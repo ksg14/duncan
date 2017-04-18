@@ -1,2 +1,5 @@
-india	5
-science	3
+india	20
+science	1
+technology	2
+sports	7
+entertainment	57
