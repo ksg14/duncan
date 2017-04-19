@@ -83,6 +83,20 @@ public class Dunsinane extends Application {
         //Creating Text Button
         textButton = new Button ("Go!");
 
+        hPanel.setSpacing(15);
+        hPanel.setPadding(new Insets(0,30,0,30));
+        //hPanel.setPadding(new Insets(10))
+        buttonPanel.getChildren().addAll(yes,no);
+        buttonPanel.setSpacing(20);
+        panel.getChildren ().addAll (userInputField, recordButton, textButton, buttonPanel);
+        hPanel.getChildren().addAll(label,buttonPanel, songIndex);
+        panel.setAlignment(Pos.CENTER);
+
+        weatherPanel.getChildren().addAll(t1,t2,t3);
+
+        // vb.getChildren().addAll(panel, weatherPanel);
+        vb.getChildren().addAll(panel,hPanel);
+
         startRecord = true;
         recordButton.setOnAction (e -> {
           if(startRecord) {
@@ -116,26 +130,11 @@ public class Dunsinane extends Application {
             //performTask (userInputField.getText (), stage);
         });
         no.setOnAction (e -> {
-            AskUser.askUser(stage, panel, userInputField);
+            AskUser.askUser(stage, vb, userInputField);
         });
         songIndex.setOnAction (e -> {
             PlayMedia.indexMediaFiles();
         });
-
-
-        hPanel.setSpacing(15);
-        hPanel.setPadding(new Insets(0,30,0,30));
-        //hPanel.setPadding(new Insets(10))
-        buttonPanel.getChildren().addAll(yes,no);
-        buttonPanel.setSpacing(20);
-        panel.getChildren ().addAll (userInputField, recordButton, textButton, buttonPanel);
-        hPanel.getChildren().addAll(label,buttonPanel, songIndex);
-        panel.setAlignment(Pos.CENTER);
-
-        weatherPanel.getChildren().addAll(t1,t2,t3);
-
-        // vb.getChildren().addAll(panel, weatherPanel);
-        vb.getChildren().addAll(panel,hPanel);
 
         //vb.setSpacing(20);
         //Set stackPane
@@ -199,7 +198,6 @@ public class Dunsinane extends Application {
       System.out.println(label);
       System.out.println(entity);
 
-
       //Social
       if(label.equals ("social")) {
         if(entity.equals ("ask")) {
@@ -244,20 +242,4 @@ public class Dunsinane extends Application {
         userInputField.setText ("Could Not Understand.");
       }
     }
-
-   /* private void saveNotesInFile()
-    {
-        try{
-            String userNotes = notesText.getText();
-            //System.out.println(userNotes);
-            FileWriter fr = new FileWriter(".src/main/java/appuserNotes.txt");
-            BufferedWriter bw = new BufferedWriter(fr);
-            bw.write(userNotes);
-            bw.close();
-        }
-        catch(IOException ie){}
-
-    }*/
-
-
 }

@@ -46,10 +46,18 @@ var sendWitExpression = function (headers, method, host, path)
               console.log(obj[0].value);
             }
             else if(resStr.entities.message_body) {
-              var obj = resStr.entities.message_body;
-              console.log(obj[0].confidence);
-              console.log("media");
-              console.log(obj[0].value);
+              if(resStr.entities.intent && resStr.entities.intent[0].value != "media") {
+                var obj = resStr.entities.intent;
+                console.log(obj[0].confidence);
+                console.log(obj[0].value);
+                console.log(obj[0].value);
+              }
+              else {
+                var obj = resStr.entities.message_body;
+                console.log(obj[0].confidence);
+                console.log("media");
+                console.log(obj[0].value);
+              }
             }
             else if(resStr.entities.intent) {
               var obj = resStr.entities.intent;
