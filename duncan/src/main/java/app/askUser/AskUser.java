@@ -27,7 +27,7 @@ import ner.GetEntity;
 
 public class AskUser {
     static String label = "", phrase = "", entity = "";
-    public static void askUser(Stage stage, HBox panel, TextField userInputField)
+    public static void askUser(Stage stage, VBox panel, TextField userInputField)
     {
         TextField userRadioInputField = new TextField("Select an action first!");
         Button saveUserSelection = new Button("save");
