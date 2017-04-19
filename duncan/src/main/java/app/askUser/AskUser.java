@@ -35,13 +35,11 @@ public class AskUser {
         VBox radioPanel = new VBox();
         ToggleGroup group = new ToggleGroup();
         RadioButton social = new RadioButton("social");
-        RadioButton media = new RadioButton("media");
         RadioButton news = new RadioButton("news");
         RadioButton notes = new RadioButton("notes");
         RadioButton weather = new RadioButton("weather");
-        radioPanel.getChildren().addAll(social,media,news,notes,weather);
+        radioPanel.getChildren().addAll(social,news,notes,weather);
         social.setToggleGroup(group);
-        media.setToggleGroup(group);
         news.setToggleGroup(group);
         notes.setToggleGroup(group);
         weather.setToggleGroup(group);
@@ -58,9 +56,6 @@ public class AskUser {
         social.setOnAction (e -> {
             userRadioInputField.setText("Enter Url / just the host name.");
         });
-        media.setOnAction (e -> {
-            userRadioInputField.setText("Enter song name.");
-        });
         news.setOnAction (e -> {
             userRadioInputField.setText("Enter news category.");
         });
@@ -76,10 +71,6 @@ public class AskUser {
           entity = userRadioInputField.getText ();
             if (social.isSelected ()) {
                 label = "social";
-              }
-            else if (media.isSelected ()) {
-                label = "media";
-                userRadioInputField.setText("Enter song name.");
               }
             else if (news.isSelected ()) {
                 label = "news";

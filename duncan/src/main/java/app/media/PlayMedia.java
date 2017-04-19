@@ -93,7 +93,7 @@ public class PlayMedia {
          // create a process and execute cmdArray and currect environment
          Process process = Runtime.getRuntime().exec(cmdArray, null);
          process.waitFor ();
-
+         System.out.println("Indexed....");
          // print another message
          System.out.println("should be working....");
       } catch (Exception ex) {
